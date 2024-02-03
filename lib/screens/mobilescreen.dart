@@ -57,7 +57,7 @@ class _MobileScreenState extends State<MobileScreen> {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.1,
                       width: MediaQuery.of(context).size.width * 0.15,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage(
                                   'assets/images/temprature_icon.png'),

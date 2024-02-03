@@ -1,8 +1,11 @@
-import 'package:clima/appscolors.dart';
-import 'package:clima/widgets/custom_dropdow_button.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:clima/widgets/barchart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:clima/appscolors.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:clima/widgets/circularpercentage.dart';
+import 'package:clima/widgets/compass.dart';
+import 'package:clima/widgets/speedwidget.dart';
 
 class LaptopScreen extends StatefulWidget {
   const LaptopScreen({super.key});
@@ -17,10 +20,12 @@ class _LaptopScreenState extends State<LaptopScreen> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2003),
-      lastDate: DateTime.now(), // Set lastDate to the current date
+      lastDate: DateTime.now()
+          .add(const Duration(days: 7)), // Set lastDate to the current date
     );
   }
 
+  double size = 200.0;
   @override
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
@@ -61,78 +66,40 @@ class _LaptopScreenState extends State<LaptopScreen> {
                 Container(
                   height: 30,
                   width: deviceWidth * 0.8,
-                  margin: EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       MaterialButton(
-                        color: Color.fromARGB(53, 53, 3, 3),
+                        color: const Color.fromARGB(53, 53, 3, 3),
                         onPressed: () {
                           _showDatePicker(); // Corrected method name
                         },
                         child: Text(
-                          "${DateFormat('dd-MM-yyyy').format(
+                          DateFormat('dd-MM-yyyy').format(
                             DateTime.now(),
-                          )}", // Corrected spelling
+                          ), // Corrected spelling
 
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255)),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       )
                     ],
                   ),
                 ),
                 Container(
+                  padding: EdgeInsets.all(8.0),
                   height: MediaQuery.of(context).size.height * 0.4,
                   width: deviceWidth * 0.8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all()),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: LineChart(
-                          LineChartData(
-                            borderData: FlBorderData(
-                              show: true,
-                              border: Border.all(
-                                  color: const Color(0xff37434d), width: 1),
-                            ),
-                            titlesData: const FlTitlesData(
-                              rightTitles:
-                                  AxisTitles(drawBelowEverything: false),
-                              topTitles: AxisTitles(drawBelowEverything: false),
-                            ),
-                            minX: 0,
-                            maxX: 7,
-                            minY: 0,
-                            maxY: 6,
-                            lineBarsData: [
-                              LineChartBarData(
-                                spots: [
-                                  const FlSpot(0, 3),
-                                  const FlSpot(1, 1),
-                                  const FlSpot(2, 4),
-                                  const FlSpot(3, 2),
-                                  const FlSpot(4, 5),
-                                  const FlSpot(5, 5),
-                                  const FlSpot(6, 2),
-                                  const FlSpot(6, 4),
-                                ],
-                                isCurved: true,
-                                color: Colors.blue,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all()),
+                    child: CustomBarChart(),
                   ),
                 ),
                 Container(
@@ -144,30 +111,14 @@ class _LaptopScreenState extends State<LaptopScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                  image: AssetImage("assets/images/sun.png"),
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all()),
-                            child: const Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 30),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "22°C",
-                                      style: TextStyle(
-                                          fontSize: 60,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    Text("temperature       ")
-                                  ],
-                                ),
-                              ),
-                            )),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(),
+                          ),
+                          child: SpeedWidget(
+                            speed: 12,
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -221,6 +172,42 @@ class _LaptopScreenState extends State<LaptopScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all()),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Temperature",
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Image(
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
+                                        image: AssetImage(
+                                            'assets/images/thermometer-outline.png'))
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Center(
+                                  child: CircularPrecentage(
+                                    size: size,
+                                    percent: 78,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -229,6 +216,9 @@ class _LaptopScreenState extends State<LaptopScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all()),
+                          child: Compass(
+                            dir: 20,
+                          ),
                         ),
                       ),
                       Padding(
@@ -314,10 +304,5 @@ class _LaptopScreenState extends State<LaptopScreen> {
       return 2;
     }
     return 1;
-  }
-
-  Widget _dropDownWidget(double Width) {
-    return CustomDropDownButtonclass(
-        values: const ["12-10-2023", "11-10-2023", "10-10-2023"], width: Width);
   }
 }
