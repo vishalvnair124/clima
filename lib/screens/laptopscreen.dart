@@ -170,6 +170,53 @@ class _LaptopScreenState extends State<LaptopScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Temperature",
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Image(
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.025,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.025,
+                                      image: AssetImage(
+                                        'assets/images/thermometer-outline.png',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Center(
+                                  child: CircularPercentage(
+                                    size: size,
+                                    percent: 67,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all()),
                           child: Column(
@@ -189,20 +236,19 @@ class _LaptopScreenState extends State<LaptopScreen> {
                                     Image(
                                         height:
                                             MediaQuery.of(context).size.width *
-                                                0.03,
+                                                0.025,
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.03,
-                                        image: AssetImage(
+                                                0.025,
+                                        image: const AssetImage(
                                             'assets/images/thermometer-outline.png'))
                                   ],
                                 ),
                               ),
                               Expanded(
                                 child: Center(
-                                  child: CircularPrecentage(
-                                    size: size,
-                                    percent: 78,
+                                  child: Compass(
+                                    dir: 20,
                                   ),
                                 ),
                               ),
@@ -216,8 +262,40 @@ class _LaptopScreenState extends State<LaptopScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all()),
-                          child: Compass(
-                            dir: 20,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Temperature",
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Image(
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
+                                        image: const AssetImage(
+                                            'assets/images/thermometer-outline.png'))
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Center(
+                                  child: Compass(
+                                    dir: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -227,14 +305,41 @@ class _LaptopScreenState extends State<LaptopScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all()),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all()),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Temperature",
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Image(
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
+                                        image: const AssetImage(
+                                            'assets/images/thermometer-outline.png'))
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Center(
+                                  child: Compass(
+                                    dir: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
