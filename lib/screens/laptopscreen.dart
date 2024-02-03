@@ -1,11 +1,15 @@
+import 'package:clima/widgets/grids/aqi.dart';
 import 'package:clima/widgets/barchart.dart';
+import 'package:clima/widgets/grids/covalue.dart';
+import 'package:clima/widgets/grids/notwo.dart';
+import 'package:clima/widgets/grids/pmtwo.dart';
+import 'package:clima/widgets/grids/sotwo.dart';
+import 'package:clima/widgets/grids/winddir.dart';
+import 'package:clima/widgets/grids/windspeed.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:clima/appscolors.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:clima/widgets/circularpercentage.dart';
-import 'package:clima/widgets/compass.dart';
-import 'package:clima/widgets/speedwidget.dart';
 
 class LaptopScreen extends StatefulWidget {
   const LaptopScreen({super.key});
@@ -54,7 +58,7 @@ class _LaptopScreenState extends State<LaptopScreen> {
                   style: TextStyle(fontSize: 60, fontWeight: FontWeight.w400),
                 ),
                 Text(
-                  "temperature       ",
+                  "Temperature       ",
                   style: TextStyle(fontWeight: FontWeight.w700),
                 )
               ],
@@ -92,7 +96,7 @@ class _LaptopScreenState extends State<LaptopScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   height: MediaQuery.of(context).size.height * 0.4,
                   width: deviceWidth * 0.8,
                   child: Container(
@@ -108,18 +112,6 @@ class _LaptopScreenState extends State<LaptopScreen> {
                   child: GridView.count(
                     crossAxisCount: gridCount(deviceWidth),
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(),
-                          ),
-                          child: SpeedWidget(
-                            speed: 12,
-                          ),
-                        ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -166,198 +158,13 @@ class _LaptopScreenState extends State<LaptopScreen> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Temperature",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    Image(
-                                      height:
-                                          MediaQuery.of(context).size.width *
-                                              0.025,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.025,
-                                      image: AssetImage(
-                                        'assets/images/thermometer-outline.png',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: CircularPercentage(
-                                    size: size,
-                                    percent: 67,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all()),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(15.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Temperature",
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Image(
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.025,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.025,
-                                        image: const AssetImage(
-                                            'assets/images/thermometer-outline.png'))
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: Compass(
-                                    dir: 20,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all()),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(15.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Temperature",
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Image(
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.025,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.025,
-                                        image: const AssetImage(
-                                            'assets/images/thermometer-outline.png'))
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: Compass(
-                                    dir: 20,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all()),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(15.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Temperature",
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Image(
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.025,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.025,
-                                        image: const AssetImage(
-                                            'assets/images/thermometer-outline.png'))
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: Compass(
-                                    dir: 20,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all()),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all()),
-                        ),
-                      ),
+                      WindSpeed(),
+                      AqiIndex(),
+                      WindDirection(),
+                      ComoValue(),
+                      PmTwoPointFive(),
+                      SoTwo(),
+                      NoTwo(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(

@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class CircularPercentage extends StatefulWidget {
-  final double size;
   final double percent;
 
-  CircularPercentage({Key? key, required this.size, required this.percent})
-      : super(key: key);
+  CircularPercentage({Key? key, required this.percent}) : super(key: key);
 
   @override
   State<CircularPercentage> createState() => _CircularPercentageState();

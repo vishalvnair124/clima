@@ -34,6 +34,9 @@ class _CompassState extends State<Compass> {
           onLabelCreated: labelCreated,
           pointers: <GaugePointer>[
             NeedlePointer(
+                animationType: AnimationType.easeOutBack,
+                enableAnimation: true,
+                animationDuration: 1000,
                 value: widget.dir,
                 lengthUnit: GaugeSizeUnit.factor,
                 needleLength: 0.55,
@@ -55,6 +58,9 @@ class _CompassState extends State<Compass> {
                     sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.white)),
             NeedlePointer(
+                animationType: AnimationType.easeOutBack,
+                enableAnimation: true,
+                animationDuration: 1000,
                 gradient: const LinearGradient(colors: <Color>[
                   Color.fromARGB(255, 245, 242, 242),
                   Color.fromARGB(255, 197, 194, 194),
@@ -69,7 +75,7 @@ class _CompassState extends State<Compass> {
                 value: opposite(),
                 needleLength: 0.55,
                 lengthUnit: GaugeSizeUnit.factor,
-                needleColor: const Color(0xFFFCACACA),
+                needleColor: Color.fromARGB(255, 227, 224, 224),
                 needleEndWidth: 18,
                 knobStyle: KnobStyle(
                     knobRadius: 0.1,

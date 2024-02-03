@@ -42,7 +42,11 @@ class _SpeedWidgetState extends State<SpeedWidget> {
             ),
           ],
           pointers: <GaugePointer>[
-            NeedlePointer(value: widget.speed),
+            NeedlePointer(
+                value: widget.speed,
+                enableAnimation: true,
+                enableDragging: true,
+                animationDuration: 4000),
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(

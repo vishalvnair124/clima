@@ -61,7 +61,7 @@ class _CustomBarChartPageState extends State<CustomBarChart> {
     return SfCartesianChart(
       enableAxisAnimation: true,
       primaryXAxis: CategoryAxis(),
-      primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
+      primaryYAxis: NumericAxis(minimum: 0, maximum: 60, interval: 5),
       tooltipBehavior: _tooltip,
       series: <CartesianSeries<_ChartData, String>>[
         BarSeries<_ChartData, String>(
