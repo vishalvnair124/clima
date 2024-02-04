@@ -26,7 +26,7 @@ class _ComoValueState extends State<ComoValue> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "CO₂",
+                    "CO",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w500,

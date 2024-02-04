@@ -36,7 +36,7 @@ class _PmTwoPointFiveState extends State<PmTwoPointFive> {
                     height: MediaQuery.of(context).size.width * 0.025,
                     width: MediaQuery.of(context).size.width * 0.025,
                     image: AssetImage(
-                      'assets/images/thermometer-outline.png',
+                      'assets/images/pm25.png',
                     ),
                   ),
                 ],

@@ -1,15 +1,17 @@
 import 'package:clima/widgets/grids/aqi.dart';
 import 'package:clima/widgets/barchart.dart';
 import 'package:clima/widgets/grids/covalue.dart';
+import 'package:clima/widgets/grids/humidity.dart';
 import 'package:clima/widgets/grids/notwo.dart';
 import 'package:clima/widgets/grids/pmtwo.dart';
+import 'package:clima/widgets/grids/pressure.dart';
 import 'package:clima/widgets/grids/sotwo.dart';
 import 'package:clima/widgets/grids/winddir.dart';
 import 'package:clima/widgets/grids/windspeed.dart';
+import 'package:clima/widgets/temperature.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:clima/appscolors.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class LaptopScreen extends StatefulWidget {
   const LaptopScreen({super.key});
@@ -24,8 +26,7 @@ class _LaptopScreenState extends State<LaptopScreen> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2003),
-      lastDate: DateTime.now()
-          .add(const Duration(days: 7)), // Set lastDate to the current date
+      lastDate: DateTime.now().add(const Duration(days: 7)),
     );
   }
 
@@ -43,23 +44,21 @@ class _LaptopScreenState extends State<LaptopScreen> {
             height: MediaQuery.of(context).size.height,
             width: deviceWidth * 0.2,
             decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(30),
+                    topRight: Radius.circular(30)),
                 image: DecorationImage(
                     fit: BoxFit.fill,
                     image: AssetImage("assets/images/sidebar.jpg"))),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 30,
                 ),
-                Text(
-                  "22°C",
-                  style: TextStyle(fontSize: 60, fontWeight: FontWeight.w400),
-                ),
-                Text(
-                  "Temperature       ",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                Temperature(
+                  temp: 40,
                 )
               ],
             ),
@@ -112,75 +111,16 @@ class _LaptopScreenState extends State<LaptopScreen> {
                   child: GridView.count(
                     crossAxisCount: gridCount(deviceWidth),
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all()),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: LineChart(
-                              LineChartData(
-                                borderData: FlBorderData(
-                                  show: true,
-                                  border: Border.all(
-                                      color: const Color(0xff37434d), width: 1),
-                                ),
-                                titlesData: const FlTitlesData(
-                                  rightTitles:
-                                      AxisTitles(drawBelowEverything: false),
-                                  topTitles:
-                                      AxisTitles(drawBelowEverything: false),
-                                ),
-                                minX: 0,
-                                maxX: 7,
-                                minY: 0,
-                                maxY: 6,
-                                lineBarsData: [
-                                  LineChartBarData(
-                                    spots: [
-                                      const FlSpot(0, 3),
-                                      const FlSpot(1, 1),
-                                      const FlSpot(2, 4),
-                                      const FlSpot(3, 2),
-                                      const FlSpot(4, 5),
-                                      const FlSpot(5, 5),
-                                      const FlSpot(6, 2),
-                                      const FlSpot(6, 4),
-                                    ],
-                                    isCurved: true,
-                                    color: Colors.blue,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      WindSpeed(),
                       AqiIndex(),
+                      AqiIndex(),
+                      WindSpeed(),
                       WindDirection(),
                       ComoValue(),
                       PmTwoPointFive(),
                       SoTwo(),
                       NoTwo(),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all()),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all()),
-                        ),
-                      ),
+                      Humidity(),
+                      Pressure(),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Container(

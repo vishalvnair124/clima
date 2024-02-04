@@ -26,7 +26,7 @@ class _SoTwoState extends State<SoTwo> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "SO2",
+                    "SO₂",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
@@ -36,7 +36,7 @@ class _SoTwoState extends State<SoTwo> {
                     height: MediaQuery.of(context).size.width * 0.025,
                     width: MediaQuery.of(context).size.width * 0.025,
                     image: AssetImage(
-                      'assets/images/thermometer-outline.png',
+                      'assets/images/sulfur-dioxide.png',
                     ),
                   ),
                 ],

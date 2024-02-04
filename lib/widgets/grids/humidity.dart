@@ -1,14 +1,14 @@
-import 'package:clima/widgets/circularpercentage.dart';
+import 'package:clima/widgets/meter.dart';
 import 'package:flutter/material.dart';
 
-class NoTwo extends StatefulWidget {
-  const NoTwo({super.key});
+class Humidity extends StatefulWidget {
+  const Humidity({super.key});
 
   @override
-  State<NoTwo> createState() => _NoTwoState();
+  State<Humidity> createState() => _HumidityState();
 }
 
-class _NoTwoState extends State<NoTwo> {
+class _HumidityState extends State<Humidity> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +26,7 @@ class _NoTwoState extends State<NoTwo> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "NO₂",
+                    "Humidity",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
@@ -36,7 +36,7 @@ class _NoTwoState extends State<NoTwo> {
                     height: MediaQuery.of(context).size.width * 0.025,
                     width: MediaQuery.of(context).size.width * 0.025,
                     image: AssetImage(
-                      'assets/images/nitrogen-dioxide.png',
+                      'assets/images/weather_humidity.png',
                     ),
                   ),
                 ],
@@ -44,10 +44,9 @@ class _NoTwoState extends State<NoTwo> {
             ),
             Expanded(
               child: Center(
-                child: CircularPercentage(
-                  percent: 37,
-                ),
-              ),
+                  child: HPMeter(
+                preValue: 40,
+              )),
             ),
           ],
         ),
