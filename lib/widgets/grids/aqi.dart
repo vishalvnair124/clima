@@ -28,6 +28,7 @@ class _AqiIndexState extends State<AqiIndex> {
                   Text(
                     "AQI",
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                     ),

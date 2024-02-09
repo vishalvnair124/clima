@@ -53,13 +53,19 @@ class _TemperatureState extends State<Temperature> {
                   enableLoadingAnimation: true,
                   axes: <RadialAxis>[
                     RadialAxis(
-                      axisLineStyle: AxisLineStyle(
-                        thickness: 10,
-                        color: Color.fromARGB(130, 101, 98, 98),
+                      axisLabelStyle: GaugeTextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
                       ),
+                      axisLineStyle: AxisLineStyle(
+                          thickness: 10,
+                          color: Color.fromARGB(205, 101, 98, 98),
+                          cornerStyle: CornerStyle.bothCurve),
                       pointers: <GaugePointer>[
                         WidgetPointer(
                           value: widget.temp,
+                          animationDuration: 4000,
+                          animationType: AnimationType.ease,
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.01,
                             height: MediaQuery.of(context).size.width * 0.01,
@@ -75,9 +81,10 @@ class _TemperatureState extends State<Temperature> {
                       ],
                       annotations: <GaugeAnnotation>[
                         GaugeAnnotation(
-                          widget: Container(
+                          verticalAlignment: GaugeAlignment.center,
+                          widget: Center(
                             child: Text(
-                              '${widget.temp}',
+                              ' ${widget.temp}°C',
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -85,7 +92,8 @@ class _TemperatureState extends State<Temperature> {
                             ),
                           ),
                           angle: 90,
-                          positionFactor: 0.5,
+                          positionFactor: 0.1,
+                          horizontalAlignment: GaugeAlignment.center,
                         ),
                       ],
                     )
@@ -105,7 +113,7 @@ class _TemperatureState extends State<Temperature> {
     } else if (value < 40.0) {
       return Colors.yellow;
     } else {
-      return Colors.red;
+      return Color.fromARGB(255, 229, 160, 63);
     }
   }
 }

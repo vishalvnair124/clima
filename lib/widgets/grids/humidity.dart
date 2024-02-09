@@ -28,6 +28,7 @@ class _HumidityState extends State<Humidity> {
                   Text(
                     "Humidity",
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                     ),

@@ -1,4 +1,3 @@
-import 'package:clima/appscolors.dart';
 import 'package:clima/screens/laptopscreen.dart';
 import 'package:clima/screens/mobilescreen.dart';
 
@@ -23,56 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
             'Clima',
             style: GoogleFonts.poppins(color: Colors.white),
           ),
-          actions: [
-            Row(
-              children: [
-                themeStateOfApp(),
-                const SizedBox(
-                  width: 10,
-                )
-              ],
-            )
-          ],
         ),
         body: MediaQuery.of(context).size.width > 600
             ? LaptopScreen()
             : MobileScreen(),
-      ),
-    );
-  }
-
-  Widget themeStateOfApp() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          colorChange();
-        });
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: const Color.fromARGB(255, 255, 255, 255)),
-        height: 30,
-        width: 60,
-        child: Row(
-            mainAxisAlignment:
-                themeOfApp ? MainAxisAlignment.end : MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Container(
-                  height: 25,
-                  width: 25,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: CircleAvatar(
-                      backgroundImage: themeOfApp
-                          ? const AssetImage('assets/images/moon.png')
-                          : const AssetImage('assets/images/sun.png')),
-                ),
-              )
-            ]),
       ),
     );
   }

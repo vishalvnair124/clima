@@ -28,6 +28,7 @@ class _NoTwoState extends State<NoTwo> {
                   Text(
                     "NO₂",
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                     ),

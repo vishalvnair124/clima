@@ -42,7 +42,10 @@ class _CustomBarChartPageState extends State<CustomBarChart> {
           33.0),
     ];
 
-    _tooltip = TooltipBehavior(enable: true);
+    _tooltip = TooltipBehavior(
+        textStyle: TextStyle(color: const Color.fromARGB(255, 2, 2, 2)),
+        enable: true,
+        color: Color.fromARGB(255, 255, 255, 255));
     super.initState();
   }
 
@@ -60,17 +63,35 @@ class _CustomBarChartPageState extends State<CustomBarChart> {
   Widget build(BuildContext context) {
     return SfCartesianChart(
       enableAxisAnimation: true,
-      primaryXAxis: CategoryAxis(),
-      primaryYAxis: NumericAxis(minimum: 0, maximum: 60, interval: 5),
+      primaryXAxis: CategoryAxis(
+          labelStyle: TextStyle(color: Colors.white),
+          axisLine: AxisLine(color: Colors.white)),
+      primaryYAxis: NumericAxis(
+        minimum: 0,
+        maximum: 60,
+        interval: 5,
+        axisLine: AxisLine(
+          color: Colors.white, // Change axis line color to white
+        ),
+        majorTickLines: MajorTickLines(
+          color: Colors.white, // Change major tick line color to white
+        ),
+        labelStyle:
+            TextStyle(color: Colors.white), // Change labels color to white
+      ),
       tooltipBehavior: _tooltip,
       series: <CartesianSeries<_ChartData, String>>[
         BarSeries<_ChartData, String>(
-          dataSource: data,
-          xValueMapper: (_ChartData data, _) => data.x,
-          yValueMapper: (_ChartData data, _) => data.y,
-          name: 'Temperature',
-          pointColorMapper: (_ChartData data, _) => getBarColor(data.y),
-        ),
+            animationDelay: 4000,
+            borderColor: const Color.fromARGB(255, 255, 255, 255),
+            dataSource: data,
+            xValueMapper: (_ChartData data, _) => data.x,
+            yValueMapper: (_ChartData data, _) => data.y,
+            name: 'Temperature',
+            pointColorMapper: (_ChartData data, _) => getBarColor(data.y),
+            borderRadius:
+                BorderRadius.horizontal(right: Radius.elliptical(15, 15)),
+            color: Colors.deepPurpleAccent)
       ],
     );
   }

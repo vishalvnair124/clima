@@ -14,10 +14,20 @@ class _SpeedWidgetState extends State<SpeedWidget> {
   @override
   Widget build(BuildContext context) {
     return SfRadialGauge(
+      animationDuration: 4000,
+      enableLoadingAnimation: true,
       axes: <RadialAxis>[
         RadialAxis(
+          majorTickStyle: MajorTickStyle(
+              color: Colors.amberAccent,
+              thickness: 1.5,
+              lengthUnit: GaugeSizeUnit.factor,
+              length: 0.07),
+          showLastLabel: true,
+          axisLabelStyle: GaugeTextStyle(color: Colors.white),
           minimum: 0,
-          maximum: 150,
+          maximum: 140,
+          interval: 10,
           ranges: <GaugeRange>[
             GaugeRange(
               startValue: 0,
@@ -43,17 +53,24 @@ class _SpeedWidgetState extends State<SpeedWidget> {
           ],
           pointers: <GaugePointer>[
             NeedlePointer(
-                value: widget.speed,
-                enableAnimation: true,
-                enableDragging: true,
-                animationDuration: 4000),
+              needleColor: Color.fromARGB(255, 214, 211, 211),
+              value: widget.speed,
+              enableAnimation: true,
+              enableDragging: true,
+              animationDuration: 4000,
+              knobStyle:
+                  KnobStyle(color: const Color.fromARGB(255, 170, 174, 174)),
+            ),
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
               widget: Container(
                 child: Text(
                   '${widget.speed}',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
               angle: 90,

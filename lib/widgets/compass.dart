@@ -23,13 +23,18 @@ class _CompassState extends State<Compass> {
           minimum: 0,
           maximum: 80,
           axisLineStyle: AxisLineStyle(
-              thicknessUnit: GaugeSizeUnit.factor, thickness: 0.1),
+              color: const Color.fromARGB(212, 255, 255, 255),
+              thicknessUnit: GaugeSizeUnit.factor,
+              thickness: 0.1),
           interval: 10,
           canRotateLabels: true,
-          axisLabelStyle: GaugeTextStyle(fontSize: 12),
+          axisLabelStyle: GaugeTextStyle(fontSize: 12, color: Colors.white),
           minorTicksPerInterval: 0,
           majorTickStyle: MajorTickStyle(
-              thickness: 1.5, lengthUnit: GaugeSizeUnit.factor, length: 0.07),
+              color: Colors.amberAccent,
+              thickness: 1.5,
+              lengthUnit: GaugeSizeUnit.factor,
+              length: 0.07),
           showLabels: true,
           onLabelCreated: labelCreated,
           pointers: <GaugePointer>[

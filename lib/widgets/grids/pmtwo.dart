@@ -28,6 +28,7 @@ class _PmTwoPointFiveState extends State<PmTwoPointFive> {
                   Text(
                     "PM 2.5",
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                     ),

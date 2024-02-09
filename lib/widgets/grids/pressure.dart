@@ -28,6 +28,7 @@ class _PressureState extends State<Pressure> {
                   Text(
                     "Pressure",
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                     ),
