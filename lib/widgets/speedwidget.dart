@@ -23,6 +23,7 @@ class _SpeedWidgetState extends State<SpeedWidget> {
               thickness: 1.5,
               lengthUnit: GaugeSizeUnit.factor,
               length: 0.07),
+          minorTickStyle: MinorTickStyle(color: Colors.white),
           showLastLabel: true,
           axisLabelStyle: GaugeTextStyle(color: Colors.white),
           minimum: 0,
@@ -66,15 +67,15 @@ class _SpeedWidgetState extends State<SpeedWidget> {
             GaugeAnnotation(
               widget: Container(
                 child: Text(
-                  '${widget.speed}',
+                  '${widget.speed} km/h',
                   style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
               ),
               angle: 90,
-              positionFactor: 0.5,
+              positionFactor: 0.3,
             ),
           ],
         ),

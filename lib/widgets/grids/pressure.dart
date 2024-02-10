@@ -16,7 +16,7 @@ class _PressureState extends State<Pressure> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(),
+          border: Border.all(color: Colors.white),
         ),
         child: Column(
           children: [

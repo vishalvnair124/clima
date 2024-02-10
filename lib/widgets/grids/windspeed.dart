@@ -15,7 +15,8 @@ class _WindSpeedState extends State<WindSpeed> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), border: Border.all()),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.white)),
         child: Column(
           children: [
             Padding(

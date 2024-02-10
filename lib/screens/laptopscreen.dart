@@ -9,9 +9,10 @@ import 'package:clima/widgets/grids/notwo.dart';
 import 'package:clima/widgets/grids/pmtwo.dart';
 import 'package:clima/widgets/grids/pressure.dart';
 import 'package:clima/widgets/grids/sotwo.dart';
+import 'package:clima/widgets/grids/tempwindow.dart';
 import 'package:clima/widgets/grids/winddir.dart';
 import 'package:clima/widgets/grids/windspeed.dart';
-import 'package:clima/widgets/temperature.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:clima/appscolors.dart';
@@ -40,7 +41,7 @@ class _LaptopScreenState extends State<LaptopScreen> {
     return Container(
       decoration: BoxDecoration(
         color: appBgColor,
-        image: DecorationImage(
+        image: const DecorationImage(
           fit: BoxFit.fill,
           image: AssetImage('assets/images/topbar.png'),
         ),
@@ -68,10 +69,8 @@ class _LaptopScreenState extends State<LaptopScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Temperature(
-                    temp: 40,
-                  ),
-                  Expanded(
+                  TempWindow(),
+                  const Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -123,7 +122,7 @@ class _LaptopScreenState extends State<LaptopScreen> {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all()),
+                          border: Border.all(color: Colors.white)),
                       child: CustomBarChart(),
                     ),
                   ),

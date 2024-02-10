@@ -53,14 +53,29 @@ class _TemperatureState extends State<Temperature> {
                   enableLoadingAnimation: true,
                   axes: <RadialAxis>[
                     RadialAxis(
+                      majorTickStyle: MajorTickStyle(
+                          length: 0.1,
+                          lengthUnit: GaugeSizeUnit.factor,
+                          thickness: 1.5,
+                          color: Colors.black),
+                      minorTickStyle: MinorTickStyle(
+                          length: 0.05,
+                          lengthUnit: GaugeSizeUnit.factor,
+                          thickness: 1.5,
+                          color: Colors.black),
+                      minimum: 0,
+                      maximum: 60,
+                      interval: 10,
+                      showLastLabel: true,
                       axisLabelStyle: GaugeTextStyle(
-                        color: Colors.black,
+                        color: Color.fromARGB(255, 0, 0, 0),
                         fontSize: 15,
                       ),
                       axisLineStyle: AxisLineStyle(
-                          thickness: 10,
-                          color: Color.fromARGB(205, 101, 98, 98),
-                          cornerStyle: CornerStyle.bothCurve),
+                        thickness: 10,
+                        color: Color.fromARGB(205, 101, 98, 98),
+                        cornerStyle: CornerStyle.bothCurve,
+                      ),
                       pointers: <GaugePointer>[
                         WidgetPointer(
                           value: widget.temp,
@@ -73,7 +88,7 @@ class _TemperatureState extends State<Temperature> {
                                 color: getBarColor(widget.temp),
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
-                                    color: Color.fromARGB(218, 105, 105, 102),
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     style: BorderStyle.solid,
                                     width: 1.0)),
                           ),
@@ -110,10 +125,14 @@ class _TemperatureState extends State<Temperature> {
   Color getBarColor(double value) {
     if (value < 30.0) {
       return Colors.green;
-    } else if (value < 40.0) {
+    } else if (value < 35.0) {
       return Colors.yellow;
+    } else if (value < 38.0) {
+      return Color.fromARGB(195, 237, 148, 4);
+    } else if (value < 442.0) {
+      return Color.fromARGB(255, 255, 98, 0);
     } else {
-      return Color.fromARGB(255, 229, 160, 63);
+      return const Color.fromARGB(255, 237, 19, 3);
     }
   }
 }

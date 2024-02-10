@@ -52,8 +52,10 @@ class _CustomBarChartPageState extends State<CustomBarChart> {
   Color getBarColor(double value) {
     if (value < 30.0) {
       return Colors.green;
-    } else if (value < 40.0) {
+    } else if (value < 35.0) {
       return Colors.yellow;
+    } else if (value < 40.0) {
+      return Color.fromARGB(255, 235, 136, 16);
     } else {
       return Colors.red;
     }
