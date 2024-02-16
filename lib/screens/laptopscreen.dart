@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:ui';
+import 'package:clima/constants.dart' as k;
 
 import 'package:clima/widgets/anclock.dart';
 import 'package:clima/widgets/grids/aqi.dart';
@@ -8,14 +10,17 @@ import 'package:clima/widgets/grids/humidity.dart';
 import 'package:clima/widgets/grids/notwo.dart';
 import 'package:clima/widgets/grids/pmtwo.dart';
 import 'package:clima/widgets/grids/pressure.dart';
+import 'package:clima/widgets/grids/rainfall.dart';
 import 'package:clima/widgets/grids/sotwo.dart';
 import 'package:clima/widgets/grids/tempwindow.dart';
 import 'package:clima/widgets/grids/winddir.dart';
 import 'package:clima/widgets/grids/windspeed.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:clima/appscolors.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class LaptopScreen extends StatefulWidget {
   const LaptopScreen({super.key});
@@ -34,9 +39,15 @@ class _LaptopScreenState extends State<LaptopScreen> {
     );
   }
 
+  bool isLoded = false;
+  num temp = 0;
+  num pressure = 0;
+  num humidity = 0;
+
   double size = 200.0;
   @override
   Widget build(BuildContext context) {
+    getWeather();
     final double deviceWidth = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(
@@ -69,7 +80,7 @@ class _LaptopScreenState extends State<LaptopScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  TempWindow(),
+                  TempWindow(temp: 33.3),
                   const Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -132,32 +143,59 @@ class _LaptopScreenState extends State<LaptopScreen> {
                     child: GridView.count(
                       crossAxisCount: gridCount(deviceWidth),
                       children: [
-                        const AqiIndex(),
-                        const AqiIndex(),
-                        const WindSpeed(),
-                        const WindDirection(),
-                        const ComoValue(),
-                        const PmTwoPointFive(),
-                        const SoTwo(),
-                        const NoTwo(),
-                        const Humidity(),
-                        const Pressure(),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all()),
-                          ),
-                        ),
+                        AqiIndex(aqi: 30),
+                        AqiIndex(aqi: 88),
+                        WindSpeed(speed: 50),
+                        WindDirection(dire: 30),
+                        ComoValue(co: 23),
+                        PmTwoPointFive(pm: 2.0),
+                        SoTwo(so2: 13),
+                        NoTwo(no2: 33),
+                        Humidity(hum: 44),
+                        Pressure(pre: 60.8),
+                        RainFall(level: 44),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all()),
+                            child: Container(
+                              child: SfLinearGauge(
+                                maximum: 10,
+                                minimum: 0,
+                                interval: 1,
+                                barPointers: [
+                                  LinearBarPointer(
+                                    value: 3,
+                                    color: Colors.blue,
+                                  )
+                                ],
+                                useRangeColorForAxis: true,
+                                animateAxis: true,
+                                axisTrackStyle:
+                                    LinearAxisTrackStyle(thickness: 10),
+                                ranges: <LinearGaugeRange>[
+                                  LinearGaugeRange(
+                                      startValue: 0,
+                                      endValue: 3,
+                                      position: LinearElementPosition.outside,
+                                      color: Color(0xff0DC9AB)),
+                                  LinearGaugeRange(
+                                      startValue: 3,
+                                      endValue: 6,
+                                      position: LinearElementPosition.outside,
+                                      color: Color(0xffFFC93E)),
+                                  LinearGaugeRange(
+                                      startValue: 6,
+                                      endValue: 10,
+                                      position: LinearElementPosition.outside,
+                                      color: Color(0xffF45656)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -178,5 +216,34 @@ class _LaptopScreenState extends State<LaptopScreen> {
       return 2;
     }
     return 1;
+  }
+
+  void getWeather() async {
+    var client = http.Client();
+    try {
+      var uri = 'https://vishalvnair0124.pythonanywhere.com/';
+      var url = Uri.parse(uri);
+      var response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        var data = response.body;
+
+        var decodedData = jsonDecode(data);
+        var msg = decodedData['message'];
+        print(msg);
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching weather: $e');
+    } finally {
+      client.close();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getWeather();
   }
 }

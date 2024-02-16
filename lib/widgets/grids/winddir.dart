@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:clima/widgets/compass.dart';
 import 'package:flutter/material.dart';
 
 class WindDirection extends StatefulWidget {
-  const WindDirection({super.key});
+  double dire;
+  WindDirection({Key? key, required this.dire}) : super(key: key);
 
   @override
   State<WindDirection> createState() => _WindDirectionState();
@@ -42,7 +45,7 @@ class _WindDirectionState extends State<WindDirection> {
             Expanded(
               child: Center(
                 child: Compass(
-                  dir: 30,
+                  dir: widget.dire,
                 ),
               ),
             ),

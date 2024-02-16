@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:clima/widgets/meter.dart';
 import 'package:flutter/material.dart';
 
 class Humidity extends StatefulWidget {
-  const Humidity({super.key});
+  double hum;
+  Humidity({Key? key, required this.hum}) : super(key: key);
 
   @override
   State<Humidity> createState() => _HumidityState();
@@ -46,7 +49,7 @@ class _HumidityState extends State<Humidity> {
             Expanded(
               child: Center(
                   child: HPMeter(
-                preValue: 40,
+                preValue: widget.hum,
               )),
             ),
           ],

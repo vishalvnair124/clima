@@ -39,8 +39,8 @@ class _CircularPercentageState extends State<CircularPercentage> {
               enableAnimation: true,
               animationDuration: 4000,
               animationType: AnimationType.bounceOut,
-              color: const Color.fromARGB(255, 76, 168,
-                  175), // Change the color for the progress pointer
+              color: getColor(
+                  widget.percent), // Change the color for the progress pointer
             ),
           ],
           annotations: <GaugeAnnotation>[
@@ -53,8 +53,8 @@ class _CircularPercentageState extends State<CircularPercentage> {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(
-                      255, 0, 0, 0), // Change the color for the text
+                  color:
+                      getColor(widget.percent), // Change the color for the text
                 ),
               ),
             ),
@@ -80,5 +80,19 @@ class _CircularPercentageState extends State<CircularPercentage> {
         ),
       ],
     );
+  }
+
+  Color getColor(double value) {
+    if (value < 30.0) {
+      return Colors.green;
+    } else if (value < 35.0) {
+      return Colors.yellow;
+    } else if (value < 38.0) {
+      return Color.fromARGB(195, 237, 148, 4);
+    } else if (value < 442.0) {
+      return Color.fromARGB(255, 255, 98, 0);
+    } else {
+      return const Color.fromARGB(255, 237, 19, 3);
+    }
   }
 }

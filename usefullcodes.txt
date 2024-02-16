@@ -511,3 +511,46 @@ Container(
       ),
     );
   }
+
+
+
+
+
+
+
+
+  void getCityWeather(String cityname) async {
+    var client = http.Client();
+    var uri = '${k.domain}q=$cityname&appid=${k.apiKey}';
+    var url = Uri.parse(uri);
+    var response = await client.get(url);
+
+    if (response.statusCode == 200) {
+      var data = response.body;
+      print(data);
+      var decodeData = jsonDecode(data);
+      updateUI(decodeData);
+      setState(() {
+        isLoded = true;
+      });
+    }
+  }
+
+  void updateUI(var decodedData) {
+    setState(() {
+      if (decodedData == null) {
+        temp = 0;
+        humidity = 0;
+        cover = 0;
+        pressure = 0;
+
+        cityname = "Not available";
+      } else {
+        temp = decodedData['main']['temp'] - 273;
+        humidity = decodedData['main']['humidity'];
+        cover = decodedData['clouds']['all'];
+        pressure = decodedData['main']['pressure'];
+        cityname = decodedData['name'];
+      }
+    });
+  }

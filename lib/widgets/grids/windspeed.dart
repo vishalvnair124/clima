@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:clima/widgets/speedwidget.dart';
 import 'package:flutter/material.dart';
 
 class WindSpeed extends StatefulWidget {
-  const WindSpeed({super.key});
+  double speed;
+  WindSpeed({Key? key, required this.speed}) : super(key: key);
 
   @override
   State<WindSpeed> createState() => _WindSpeedState();
@@ -42,7 +45,7 @@ class _WindSpeedState extends State<WindSpeed> {
             Expanded(
               child: Center(
                 child: SpeedWidget(
-                  speed: 52,
+                  speed: widget.speed,
                 ),
               ),
             ),

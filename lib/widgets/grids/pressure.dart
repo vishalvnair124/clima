@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:clima/widgets/meter.dart';
 import 'package:flutter/material.dart';
 
 class Pressure extends StatefulWidget {
-  const Pressure({super.key});
+  double pre;
+  Pressure({Key? key, required this.pre}) : super(key: key);
 
   @override
   State<Pressure> createState() => _PressureState();
@@ -46,7 +49,7 @@ class _PressureState extends State<Pressure> {
             Expanded(
               child: Center(
                   child: HPMeter(
-                preValue: 40,
+                preValue: widget.pre,
               )),
             ),
           ],

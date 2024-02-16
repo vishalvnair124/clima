@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:clima/widgets/circularpercentage.dart';
 import 'package:flutter/material.dart';
 
 class SoTwo extends StatefulWidget {
-  const SoTwo({super.key});
+  double so2;
+  SoTwo({Key? key, required this.so2}) : super(key: key);
 
   @override
   State<SoTwo> createState() => _SoTwoState();
@@ -46,7 +49,7 @@ class _SoTwoState extends State<SoTwo> {
             Expanded(
               child: Center(
                 child: CircularPercentage(
-                  percent: 57,
+                  percent: widget.so2,
                 ),
               ),
             ),

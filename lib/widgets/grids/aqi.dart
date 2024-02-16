@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:clima/widgets/circularpercentage.dart';
 import 'package:flutter/material.dart';
 
 class AqiIndex extends StatefulWidget {
-  const AqiIndex({super.key});
+  double aqi;
+  AqiIndex({Key? key, required this.aqi}) : super(key: key);
 
   @override
   State<AqiIndex> createState() => _AqiIndexState();
@@ -46,7 +49,7 @@ class _AqiIndexState extends State<AqiIndex> {
             Expanded(
               child: Center(
                 child: CircularPercentage(
-                  percent: 47,
+                  percent: widget.aqi,
                 ),
               ),
             ),

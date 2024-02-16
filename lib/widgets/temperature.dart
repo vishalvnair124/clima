@@ -73,7 +73,7 @@ class _TemperatureState extends State<Temperature> {
                       ),
                       axisLineStyle: AxisLineStyle(
                         thickness: 10,
-                        color: Color.fromARGB(205, 101, 98, 98),
+                        color: Color.fromARGB(181, 206, 197, 197),
                         cornerStyle: CornerStyle.bothCurve,
                       ),
                       pointers: <GaugePointer>[
@@ -85,7 +85,7 @@ class _TemperatureState extends State<Temperature> {
                             width: MediaQuery.of(context).size.width * 0.01,
                             height: MediaQuery.of(context).size.width * 0.01,
                             decoration: BoxDecoration(
-                                color: getBarColor(widget.temp),
+                                color: getColor(widget.temp),
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
                                     color: Color.fromARGB(255, 255, 255, 255),
@@ -103,7 +103,7 @@ class _TemperatureState extends State<Temperature> {
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: getBarColor(widget.temp)),
+                                  color: getColor(widget.temp)),
                             ),
                           ),
                           angle: 90,
@@ -122,7 +122,7 @@ class _TemperatureState extends State<Temperature> {
     );
   }
 
-  Color getBarColor(double value) {
+  Color getColor(double value) {
     if (value < 30.0) {
       return Colors.green;
     } else if (value < 35.0) {

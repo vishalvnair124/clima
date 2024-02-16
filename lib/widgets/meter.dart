@@ -17,6 +17,7 @@ class _HPMeterState extends State<HPMeter> {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
+          axisLabelStyle: GaugeTextStyle(color: Colors.white),
           axisLineStyle: AxisLineStyle(thickness: 25),
           showTicks: false,
           pointers: <GaugePointer>[
@@ -25,7 +26,7 @@ class _HPMeterState extends State<HPMeter> {
                 enableAnimation: true,
                 needleStartWidth: 0,
                 needleEndWidth: 5,
-                needleColor: Color.fromARGB(255, 37, 37, 37),
+                needleColor: Color.fromARGB(255, 156, 155, 158),
                 knobStyle: KnobStyle(
                     color: Colors.white,
                     borderColor: Color.fromARGB(255, 37, 37, 37),
@@ -39,14 +40,17 @@ class _HPMeterState extends State<HPMeter> {
                 value: widget.preValue,
                 width: 25,
                 enableAnimation: true,
-                color: Color.fromARGB(255, 242, 191, 113))
+                color: getColor(widget.preValue))
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
               widget: Container(
                 child: Text(
                   '${widget.preValue}',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: getColor(widget.preValue),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               angle: 90,
@@ -56,5 +60,19 @@ class _HPMeterState extends State<HPMeter> {
         )
       ],
     );
+  }
+
+  Color getColor(double value) {
+    if (value < 30.0) {
+      return Colors.green;
+    } else if (value < 35.0) {
+      return Colors.yellow;
+    } else if (value < 38.0) {
+      return Color.fromARGB(195, 237, 148, 4);
+    } else if (value < 442.0) {
+      return Color.fromARGB(255, 255, 98, 0);
+    } else {
+      return const Color.fromARGB(255, 237, 19, 3);
+    }
   }
 }

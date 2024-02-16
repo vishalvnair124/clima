@@ -1,6 +1,8 @@
 import 'package:clima/appscolors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:clima/constants.dart' as k;
+import 'package:http/http.dart' as http;
 
 class MobileScreen extends StatefulWidget {
   const MobileScreen({super.key});
@@ -57,11 +59,6 @@ class _MobileScreenState extends State<MobileScreen> {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.1,
                       width: MediaQuery.of(context).size.width * 0.15,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/temprature_icon.png'),
-                              fit: BoxFit.fill)),
                     )
                   ],
                 ),
@@ -73,9 +70,6 @@ class _MobileScreenState extends State<MobileScreen> {
                   height: 300,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/sun.png"),
-                      ),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all()),
                   child: const Center(
@@ -246,5 +240,31 @@ class _MobileScreenState extends State<MobileScreen> {
         ),
       ),
     );
+  }
+
+  void getWeather() async {
+    var client = http.Client();
+    try {
+      var uri = '${k.domain}';
+      var url = Uri.parse(uri);
+      var response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        var data = response.body;
+        print(data);
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching weather: $e');
+    } finally {
+      client.close();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getWeather();
   }
 }

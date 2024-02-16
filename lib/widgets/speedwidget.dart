@@ -71,7 +71,7 @@ class _SpeedWidgetState extends State<SpeedWidget> {
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                      color: getColor(widget.speed)),
                 ),
               ),
               angle: 90,
@@ -81,5 +81,19 @@ class _SpeedWidgetState extends State<SpeedWidget> {
         ),
       ],
     );
+  }
+
+  Color getColor(double value) {
+    if (value < 30.0) {
+      return Colors.green;
+    } else if (value < 35.0) {
+      return Colors.yellow;
+    } else if (value < 38.0) {
+      return Color.fromARGB(195, 237, 148, 4);
+    } else if (value < 442.0) {
+      return Color.fromARGB(255, 255, 98, 0);
+    } else {
+      return const Color.fromARGB(255, 237, 19, 3);
+    }
   }
 }

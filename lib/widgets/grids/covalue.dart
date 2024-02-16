@@ -1,9 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:clima/widgets/circularpercentage.dart';
 import 'package:flutter/material.dart';
 
 class ComoValue extends StatefulWidget {
-  const ComoValue({super.key});
-
+  double co;
+  ComoValue({Key? key, required this.co}) : super(key: key);
   @override
   State<ComoValue> createState() => _ComoValueState();
 }
@@ -46,7 +48,7 @@ class _ComoValueState extends State<ComoValue> {
             Expanded(
               child: Center(
                 child: CircularPercentage(
-                  percent: 27,
+                  percent: widget.co,
                 ),
               ),
             ),
