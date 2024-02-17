@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 import 'package:clima/constants.dart' as k;
+import 'package:clima/model/weather_data.dart';
 
 import 'package:clima/widgets/anclock.dart';
 import 'package:clima/widgets/grids/aqi.dart';
@@ -13,6 +15,7 @@ import 'package:clima/widgets/grids/pressure.dart';
 import 'package:clima/widgets/grids/rainfall.dart';
 import 'package:clima/widgets/grids/sotwo.dart';
 import 'package:clima/widgets/grids/tempwindow.dart';
+import 'package:clima/widgets/grids/uvindex.dart';
 import 'package:clima/widgets/grids/winddir.dart';
 import 'package:clima/widgets/grids/windspeed.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +23,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:clima/appscolors.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class LaptopScreen extends StatefulWidget {
   const LaptopScreen({super.key});
@@ -40,14 +42,22 @@ class _LaptopScreenState extends State<LaptopScreen> {
   }
 
   bool isLoded = false;
-  num temp = 0;
-  num pressure = 0;
-  num humidity = 0;
+  double temperature = 0; // Remove default value assignment
+  double humidity = 0;
+  double pressure = 0;
+  double rainfall = 0;
+  double uvIndex = 0;
+  double windSpeed = 0;
+  int windDirection = 0;
+  double airQualityIndex = 0;
+  double coLevel = 0;
+  double pm25 = 0;
+  double so2Level = 0;
+  double no2Level = 0;
 
   double size = 200.0;
   @override
   Widget build(BuildContext context) {
-    getWeather();
     final double deviceWidth = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(
@@ -80,7 +90,12 @@ class _LaptopScreenState extends State<LaptopScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  TempWindow(temp: 33.3),
+                  Visibility(
+                      visible: isLoded,
+                      replacement: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      child: TempWindow(temp: temperature)),
                   const Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -140,63 +155,28 @@ class _LaptopScreenState extends State<LaptopScreen> {
                   Container(
                     height: MediaQuery.of(context).size.height,
                     width: deviceWidth * 0.8,
-                    child: GridView.count(
-                      crossAxisCount: gridCount(deviceWidth),
-                      children: [
-                        AqiIndex(aqi: 30),
-                        AqiIndex(aqi: 88),
-                        WindSpeed(speed: 50),
-                        WindDirection(dire: 30),
-                        ComoValue(co: 23),
-                        PmTwoPointFive(pm: 2.0),
-                        SoTwo(so2: 13),
-                        NoTwo(no2: 33),
-                        Humidity(hum: 44),
-                        Pressure(pre: 60.8),
-                        RainFall(level: 44),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all()),
-                            child: Container(
-                              child: SfLinearGauge(
-                                maximum: 10,
-                                minimum: 0,
-                                interval: 1,
-                                barPointers: [
-                                  LinearBarPointer(
-                                    value: 3,
-                                    color: Colors.blue,
-                                  )
-                                ],
-                                useRangeColorForAxis: true,
-                                animateAxis: true,
-                                axisTrackStyle:
-                                    LinearAxisTrackStyle(thickness: 10),
-                                ranges: <LinearGaugeRange>[
-                                  LinearGaugeRange(
-                                      startValue: 0,
-                                      endValue: 3,
-                                      position: LinearElementPosition.outside,
-                                      color: Color(0xff0DC9AB)),
-                                  LinearGaugeRange(
-                                      startValue: 3,
-                                      endValue: 6,
-                                      position: LinearElementPosition.outside,
-                                      color: Color(0xffFFC93E)),
-                                  LinearGaugeRange(
-                                      startValue: 6,
-                                      endValue: 10,
-                                      position: LinearElementPosition.outside,
-                                      color: Color(0xffF45656)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+                    child: Visibility(
+                      visible: isLoded,
+                      replacement: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      child: GridView.count(
+                        crossAxisCount: gridCount(deviceWidth),
+                        children: [
+                          AqiIndex(aqi: airQualityIndex),
+                          AqiIndex(aqi: airQualityIndex),
+                          WindSpeed(speed: windSpeed),
+                          WindDirection(dire: windDirection.toDouble()),
+                          ComoValue(co: coLevel),
+                          PmTwoPointFive(pm: pm25),
+                          SoTwo(so2: so2Level),
+                          NoTwo(no2: no2Level),
+                          Humidity(hum: humidity),
+                          Pressure(pre: pressure),
+                          RainFall(level: rainfall),
+                          UvIndex(uvvlaue: uvIndex)
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -221,16 +201,31 @@ class _LaptopScreenState extends State<LaptopScreen> {
   void getWeather() async {
     var client = http.Client();
     try {
-      var uri = 'https://vishalvnair0124.pythonanywhere.com/';
+      var uri = 'http://127.0.0.1:8000/latest_weather';
       var url = Uri.parse(uri);
       var response = await client.get(url);
 
       if (response.statusCode == 200) {
         var data = response.body;
+        print(data);
+        Map<String, dynamic> jsonMap = json.decode(data);
+        WeatherData weatherData = WeatherData.fromJson(jsonMap);
 
-        var decodedData = jsonDecode(data);
-        var msg = decodedData['message'];
-        print(msg);
+        setState(() {
+          isLoded = true;
+          temperature = weatherData.temperature!;
+          humidity = weatherData.humidity!;
+          pressure = weatherData.pressure!;
+          rainfall = weatherData.rainfall!;
+          uvIndex = weatherData.uvIndex!;
+          windSpeed = weatherData.windSpeed!;
+          windDirection = weatherData.windDirection!;
+          airQualityIndex = weatherData.airQualityIndex!;
+          coLevel = weatherData.coLevel!;
+          pm25 = weatherData.pm25!;
+          so2Level = weatherData.so2Level!;
+          no2Level = weatherData.no2Level!;
+        });
       } else {
         print('Request failed with status: ${response.statusCode}');
       }
@@ -245,5 +240,8 @@ class _LaptopScreenState extends State<LaptopScreen> {
   void initState() {
     super.initState();
     getWeather();
+    Timer.periodic(Duration(minutes: 1), (timer) {
+      getWeather();
+    });
   }
 }

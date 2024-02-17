@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:clima/appscolors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -245,13 +247,17 @@ class _MobileScreenState extends State<MobileScreen> {
   void getWeather() async {
     var client = http.Client();
     try {
-      var uri = '${k.domain}';
+      var uri = 'http://10.0.2.2:8000/users/u1';
       var url = Uri.parse(uri);
+
       var response = await client.get(url);
 
       if (response.statusCode == 200) {
         var data = response.body;
         print(data);
+        var decodedData = jsonDecode(data);
+        var msg = decodedData['message'];
+        print(msg);
       } else {
         print('Request failed with status: ${response.statusCode}');
       }

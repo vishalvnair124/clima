@@ -46,6 +46,12 @@ class _RainFallState extends State<RainFall> {
                 ],
               ),
             ),
+            Center(
+              child: Text(
+                "${widget.level} cm",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
             Expanded(
               child: Center(
                 child: Container(
@@ -71,7 +77,6 @@ class _RainFallState extends State<RainFall> {
                             top: Radius.circular(10),
                             bottom: Radius.circular(10)),
                       ),
-                      child: Center(child: Text("${widget.level} cm")),
                     ),
                   ),
                 ),
