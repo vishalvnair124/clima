@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:clima/widgets/meter.dart';
+import 'package:clima/widgets/pmeter.dart';
 import 'package:flutter/material.dart';
 
 class Pressure extends StatefulWidget {
@@ -31,7 +31,7 @@ class _PressureState extends State<Pressure> {
                   Text(
                     "Pressure",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                     ),
@@ -48,7 +48,7 @@ class _PressureState extends State<Pressure> {
             ),
             Expanded(
               child: Center(
-                  child: HPMeter(
+                  child: PMeter(
                 preValue: widget.pre,
               )),
             ),

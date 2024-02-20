@@ -554,3 +554,28 @@ Container(
       }
     });
   }
+
+
+   void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2003),
+      lastDate: DateTime.now().add(const Duration(days: 7)),
+    );
+  }
+
+  MaterialButton(
+                          color: const Color.fromARGB(53, 53, 3, 3),
+                          onPressed: () {
+                            _showDatePicker(); // Corrected method name
+                          },
+                          child: Text(
+                            DateFormat('dd-MM-yyyy').format(
+                              DateTime.now(),
+                            ), // Corrected spelling
+
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                        ),

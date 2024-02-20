@@ -52,7 +52,7 @@ class _AnalogClocksState extends State<AnalogClocks> {
         child: AnalogClock(
           dateTime: DateTime.now(),
           isKeepTime: true,
-          dialColor: const Color.fromARGB(255, 189, 189, 189),
+          dialColor: Color.fromARGB(255, 255, 255, 255),
           dialBorderColor: Colors.black,
           dialBorderWidthFactor: 0.02,
           markingColor: Colors.black,

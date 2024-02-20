@@ -19,7 +19,7 @@ class _UvIndexState extends State<UvIndex> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.white),
+          border: Border.all(color: const Color.fromARGB(255, 142, 139, 139)),
         ),
         child: Column(
           children: [
@@ -31,7 +31,7 @@ class _UvIndexState extends State<UvIndex> {
                   Text(
                     "UV index",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 255, 255, 255),
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                     ),
@@ -55,7 +55,7 @@ class _UvIndexState extends State<UvIndex> {
                     child: Text(
                       "${widget.uvvlaue}",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 30,
                       ),
                     ),

@@ -30,7 +30,7 @@ class _ComoValueState extends State<ComoValue> {
                   Text(
                     "CO",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 255, 255, 255),
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
                     ),

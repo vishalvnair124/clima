@@ -32,6 +32,7 @@ class _TemperatureState extends State<Temperature> {
                   Text(
                     "Temperature",
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
                     ),
@@ -40,7 +41,7 @@ class _TemperatureState extends State<Temperature> {
                     height: MediaQuery.of(context).size.width * 0.025,
                     width: MediaQuery.of(context).size.width * 0.025,
                     image: AssetImage(
-                      'assets/images/thermometer-outline.png',
+                      'assets/images/thermometer-outline-2.png',
                     ),
                   ),
                 ],
@@ -57,18 +58,18 @@ class _TemperatureState extends State<Temperature> {
                           length: 0.1,
                           lengthUnit: GaugeSizeUnit.factor,
                           thickness: 1.5,
-                          color: Colors.black),
+                          color: Colors.white),
                       minorTickStyle: MinorTickStyle(
                           length: 0.05,
                           lengthUnit: GaugeSizeUnit.factor,
                           thickness: 1.5,
-                          color: Colors.black),
+                          color: Colors.white),
                       minimum: 0,
                       maximum: 60,
                       interval: 10,
                       showLastLabel: true,
                       axisLabelStyle: GaugeTextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
+                        color: Colors.white,
                         fontSize: 15,
                       ),
                       axisLineStyle: AxisLineStyle(

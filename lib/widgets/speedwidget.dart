@@ -23,9 +23,11 @@ class _SpeedWidgetState extends State<SpeedWidget> {
               thickness: 1.5,
               lengthUnit: GaugeSizeUnit.factor,
               length: 0.07),
-          minorTickStyle: MinorTickStyle(color: Colors.white),
+          minorTickStyle:
+              MinorTickStyle(color: const Color.fromARGB(255, 0, 0, 0)),
           showLastLabel: true,
-          axisLabelStyle: GaugeTextStyle(color: Colors.white),
+          axisLabelStyle:
+              GaugeTextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           minimum: 0,
           maximum: 140,
           interval: 10,
