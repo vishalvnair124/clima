@@ -12,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
   PageController controller = PageController();
   @override
   Widget build(BuildContext context) {
@@ -107,7 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
       controller.jumpToPage(index);
     });
   }
