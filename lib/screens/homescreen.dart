@@ -18,31 +18,27 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Visibility(
-          visible: (MediaQuery.of(context).size.width > 600),
-          child: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon:
-                    Icon(Icons.menu, color: Colors.white), // Change icon color
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
-            },
-          ),
-        ),
-        toolbarHeight: MediaQuery.of(context).size.height * 0.05,
-        flexibleSpace: Image(
-          image: AssetImage('assets/images/ForestBG-1.png'),
-          fit: BoxFit.fitWidth,
-        ),
-        backgroundColor: Colors.transparent,
         title: Text(
           'Clima',
           style: GoogleFonts.mada(
               color: Colors.white, fontSize: 30, fontWeight: FontWeight.w500),
         ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu, color: Colors.white), // Change icon color
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        toolbarHeight: MediaQuery.of(context).size.height * 0.05,
+        flexibleSpace: Image(
+          image: AssetImage('assets/images/ForestBG-1.png'),
+          fit: BoxFit.fill,
+        ),
+        backgroundColor: Colors.transparent,
       ),
       body: MediaQuery.of(context).size.width > 600
           ? PageView(
@@ -51,100 +47,59 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           : PageView(
               controller: controller,
-              children: [MobileHomeScreen()],
+              children: [MobileHomeScreen(), Container()],
             ),
-      bottomNavigationBar: Visibility(
-        visible: (MediaQuery.of(context).size.width < 600),
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/ForestBG-appBar.png'),
-              fit: BoxFit.fill,
-            ),
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(27), topLeft: Radius.circular(27)),
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.transparent,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.lightGreen,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Analysis',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Forcast',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Settings',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-          ),
-        ),
-      ),
-      drawer: Visibility(
-        visible: (MediaQuery.of(context).size.width > 600),
-        child: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                    color: Colors.blue,
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage('assets/images/ForestBG.png'))),
-                child: Text(
-                  'Clima',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage('assets/images/ForestBG.png'))),
+              child: Text(
+                'Clima',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
                 ),
               ),
-              ListTile(
-                title: Text('Home'),
-                onTap: () {
-                  _onItemTapped(0);
-                  Navigator.of(context).pop();
-                },
-                leading: Icon(Icons.home),
-              ),
-              ListTile(
-                title: Text('Analysis'),
-                leading: Icon(Icons.auto_graph),
-                onTap: () {
-                  _onItemTapped(1);
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                title: Text('Forcast'),
-                leading: Icon(Icons.auto_graph),
-                onTap: () {
-                  _onItemTapped(2);
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                title: Text('Settings'),
-                leading: Icon(Icons.settings),
-                onTap: () {
-                  _onItemTapped(3);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
+            ),
+            ListTile(
+              title: Text('Home'),
+              onTap: () {
+                _onItemTapped(0);
+                Navigator.of(context).pop();
+              },
+              leading: Icon(Icons.home),
+            ),
+            ListTile(
+              title: Text('Analysis'),
+              leading: Icon(Icons.auto_graph),
+              onTap: () {
+                _onItemTapped(1);
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              title: Text('Forcast'),
+              leading: Icon(Icons.auto_graph),
+              onTap: () {
+                _onItemTapped(2);
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              title: Text('Settings'),
+              leading: Icon(Icons.settings),
+              onTap: () {
+                _onItemTapped(3);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         ),
       ),
     );

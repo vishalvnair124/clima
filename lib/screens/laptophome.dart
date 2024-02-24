@@ -33,6 +33,7 @@ class LaptopHome extends StatefulWidget {
 }
 
 class _LaptopHomeState extends State<LaptopHome> {
+  late Timer _timer;
   bool isLoded = false;
   double temperature = 0; // Remove default value assignment
   double humidity = 0;
@@ -218,8 +219,14 @@ class _LaptopHomeState extends State<LaptopHome> {
   void initState() {
     super.initState();
     getWeather();
-    Timer.periodic(Duration(minutes: 1), (timer) {
+    _timer = Timer.periodic(Duration(minutes: 1), (timer) {
       getWeather();
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel(); // Cancel the timer to prevent memory leaks
+    super.dispose();
   }
 }

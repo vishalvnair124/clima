@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:clima/appscolors.dart';
+import 'package:clima/model/weather_data.dart';
+import 'package:clima/screens/mobilelatest.dart';
 
 import 'package:clima/widgets/mobilebarchar.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,15 @@ class MobileHomeScreen extends StatefulWidget {
 }
 
 class _MobileHomeScreenState extends State<MobileHomeScreen> {
+  late Timer _timer;
+  bool isLoded = false;
+  double temperature = 0; // Remove default value assignment
+  double humidity = 0;
+  double pressure = 0;
+  double airQualityIndex = 0;
+
+  double rainfall = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,20 +81,24 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                 ],
               ),
             ),
-            Text(
-              temaqi ? "25" : "25°c",
-              style: GoogleFonts.mada(
-                height: 0.8,
-                color: Color.fromARGB(255, 255, 255, 255),
-                fontSize: temaqi ? 120 : 100,
-                fontWeight: FontWeight.w600,
-                shadows: [
-                  Shadow(
-                    blurRadius: 10.0,
-                    color: const Color.fromARGB(255, 0, 0, 0),
-                    offset: Offset(5.0, 5.0),
-                  ),
-                ],
+            Visibility(
+              replacement: CircularProgressIndicator(),
+              visible: isLoded,
+              child: Text(
+                temaqi ? "${airQualityIndex}" : "${temperature}°c",
+                style: GoogleFonts.mada(
+                  height: 0.8,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: temaqi ? 120 : 100,
+                  fontWeight: FontWeight.w600,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 10.0,
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      offset: Offset(5.0, 5.0),
+                    ),
+                  ],
+                ),
               ),
             ),
             Text(
@@ -122,7 +138,9 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text(
-                              temaqi ? "20°C" : "20",
+                              temaqi
+                                  ? "${temperature}°c"
+                                  : "${airQualityIndex}",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.mada(
                                 color: Colors.white,
@@ -146,7 +164,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 11),
                           child: Text(
-                            "20",
+                            "${rainfall}",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.mada(
                               color: Colors.white,
@@ -209,7 +227,13 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MobileLatest()),
+                            );
+                          },
                           child: Text(
                             "Current observation",
                             style: GoogleFonts.mada(
@@ -227,7 +251,13 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MobileLatest()),
+                              );
+                            },
                             icon: Icon(
                               Icons.arrow_right_sharp,
                               size: 30,
@@ -272,17 +302,17 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  "1024",
+                                  "${humidity}",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF454545),
-                                      fontSize: 55,
+                                      fontSize: 50,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   "%",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF5F5F5F),
-                                      fontSize: 50,
+                                      fontSize: 45,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ],
@@ -329,7 +359,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  "1024",
+                                  "${pressure}",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF454545),
                                       fontSize: 55,
@@ -369,17 +399,25 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
   void getWeather() async {
     var client = http.Client();
     try {
-      var uri = 'http://10.0.2.2:8000/users/u1';
+      var uri = 'http://10.0.2.2:8000/latest_weather';
       var url = Uri.parse(uri);
-
       var response = await client.get(url);
 
       if (response.statusCode == 200) {
         var data = response.body;
         print(data);
-        var decodedData = jsonDecode(data);
-        var msg = decodedData['message'];
-        print(msg);
+        Map<String, dynamic> jsonMap = json.decode(data);
+        WeatherData weatherData = WeatherData.fromJson(jsonMap);
+
+        setState(() {
+          isLoded = true;
+          airQualityIndex = weatherData.airQualityIndex!;
+          temperature = weatherData.temperature!;
+          humidity = weatherData.humidity!;
+          pressure = weatherData.pressure!;
+
+          rainfall = weatherData.rainfall!;
+        });
       } else {
         print('Request failed with status: ${response.statusCode}');
       }
@@ -393,5 +431,15 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
   @override
   void initState() {
     super.initState();
+    getWeather();
+    _timer = Timer.periodic(Duration(minutes: 1), (timer) {
+      getWeather();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel(); // Cancel the timer to prevent memory leaks
+    super.dispose();
   }
 }
