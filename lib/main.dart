@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/homescreen.dart';
+import 'package:clima/screens/loginandregister/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black54),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
