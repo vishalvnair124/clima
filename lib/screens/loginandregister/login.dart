@@ -15,12 +15,15 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool isLogin = false;
+  String msg = "";
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text(
@@ -171,6 +174,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ],
                           ),
+                          Visibility(
+                              visible: isLogin,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: BorderRadius.circular(30)),
+                                  child: Text("          $msg          "),
+                                ),
+                              ))
                         ],
                       ),
                     ),
@@ -211,8 +225,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (response.statusCode == 200) {
       print('Login successful');
       print(response.body);
-      // Handle successful login, e.g., navigate to another screen
+      Navigator.pushReplacementNamed(context, "home");
     } else if (response.statusCode == 401) {
+      setState(() {
+        msg = "wrong user name or password";
+        isLogin = true;
+      });
       print('Invalid credentials');
       // Handle invalid credentials, e.g., show error message
     } else {

@@ -1,5 +1,8 @@
+import 'package:clima/screens/analysedaily.dart';
+import 'package:clima/screens/analysefulday.dart';
 import 'package:clima/screens/laptophome.dart';
 import 'package:clima/screens/mobilehome.dart';
+import 'package:clima/screens/settings.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,8 +48,17 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [LaptopHome(), Container()],
             )
           : PageView(
+              physics: NeverScrollableScrollPhysics(),
               controller: controller,
-              children: [MobileHomeScreen(), Container()],
+              children: [
+                MobileHomeScreen(),
+                PageView(children: [
+                  AnalseDaily(), // Placeholder for tab content
+                  AnalyseFullDay()
+                ]),
+                Container(),
+                Settings()
+              ],
             ),
       drawer: Drawer(
         child: ListView(

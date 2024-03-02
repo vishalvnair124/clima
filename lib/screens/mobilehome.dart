@@ -85,11 +85,13 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
               replacement: CircularProgressIndicator(),
               visible: isLoded,
               child: Text(
-                temaqi ? "${airQualityIndex}" : "${temperature}°c",
+                temaqi
+                    ? "${airQualityIndex.toStringAsFixed(1)}"
+                    : "${temperature.toStringAsFixed(1)}°c",
                 style: GoogleFonts.mada(
                   height: 0.8,
                   color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: temaqi ? 120 : 100,
+                  fontSize: temaqi ? 120 : 110,
                   fontWeight: FontWeight.w600,
                   shadows: [
                     Shadow(
@@ -139,8 +141,8 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                             padding: const EdgeInsets.only(top: 8),
                             child: Text(
                               temaqi
-                                  ? "${temperature}°c"
-                                  : "${airQualityIndex}",
+                                  ? "${temperature.toStringAsFixed(1)}°c"
+                                  : "${airQualityIndex.toStringAsFixed(1)}",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.mada(
                                 color: Colors.white,
@@ -362,14 +364,14 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                                   "${pressure}",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF454545),
-                                      fontSize: 55,
+                                      fontSize: 50,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   "Pa",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF5F5F5F),
-                                      fontSize: 50,
+                                      fontSize: 45,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ],

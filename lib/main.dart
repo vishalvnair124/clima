@@ -1,3 +1,4 @@
+import 'package:clima/screens/homescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/screens/loginandregister/login.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: LoginScreen(),
+      routes: {"home": (context) => HomeScreen()},
       debugShowCheckedModeBanner: false,
     );
   }

@@ -152,14 +152,14 @@ class _MobileLatestState extends State<MobileLatest> {
                               "${pressure}",
                               style: GoogleFonts.mada(
                                   color: Color(0xFF454545),
-                                  fontSize: 55,
+                                  fontSize: 45,
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
                               "Pa",
                               style: GoogleFonts.mada(
                                   color: Color(0xFF5F5F5F),
-                                  fontSize: 50,
+                                  fontSize: 40,
                                   fontWeight: FontWeight.w500),
                             ),
                           ],
@@ -785,6 +785,8 @@ class _MobileLatestState extends State<MobileLatest> {
       text = 'W';
     } else if (direction <= 70) {
       text = 'NW';
+    } else if (direction > 70) {
+      text = 'N';
     } else {
       // Handle unknown direction code
       text = 'Unknown';
