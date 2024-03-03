@@ -1,4 +1,5 @@
-import 'package:clima/appscolors.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -19,19 +20,20 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
 
   @override
   void initState() {
+    getWeather();
     data = [
       _ChartData(
           DateFormat('E').format(
             DateTime.now().add(Duration(days: 3)),
           ),
-          37.0),
+          22),
       _ChartData(
           DateFormat('E').format(
             DateTime.now().add(Duration(days: 2)),
           ),
           25.0),
       _ChartData("Tomorrow", 50.0),
-      _ChartData("Today", 27.0),
+      _ChartData("Today", 30),
       _ChartData("Yesterday", 23.0),
       _ChartData(
           DateFormat('E').format(
@@ -72,7 +74,7 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
         isTransposed: true,
         enableAxisAnimation: true,
         title: ChartTitle(
-            text: temaqi ? 'Air Quality' : 'Temperature',
+            text: 'Temperature',
             textStyle: GoogleFonts.mada(shadows: [
               Shadow(
                 blurRadius: 10.0,
@@ -114,6 +116,26 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
         ],
       ),
     );
+  }
+
+  void getWeather() async {
+    var client = http.Client();
+    try {
+      var uri = 'http://10.0.2.2:8000/thisweektemp';
+      var url = Uri.parse(uri);
+      var response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        var data = response.body;
+        print(data);
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching weather: $e');
+    } finally {
+      client.close();
+    }
   }
 }
 

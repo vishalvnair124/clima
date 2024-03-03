@@ -1,5 +1,6 @@
 import 'package:clima/screens/analysedaily.dart';
 import 'package:clima/screens/analysefulday.dart';
+import 'package:clima/screens/forecast.dart';
 import 'package:clima/screens/laptophome.dart';
 import 'package:clima/screens/mobilehome.dart';
 import 'package:clima/screens/settings.dart';
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   AnalseDaily(), // Placeholder for tab content
                   AnalyseFullDay()
                 ]),
-                Container(),
+                Forecast(),
                 Settings()
               ],
             ),
