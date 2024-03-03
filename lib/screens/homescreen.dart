@@ -1,5 +1,5 @@
 import 'package:clima/screens/analysedaily.dart';
-import 'package:clima/screens/analysefulday.dart';
+import 'package:clima/screens/analysefullday.dart';
 import 'package:clima/screens/forecast.dart';
 import 'package:clima/screens/laptophome.dart';
 import 'package:clima/screens/mobilehome.dart';

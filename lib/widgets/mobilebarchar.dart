@@ -1,13 +1,11 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class CustomMobileBarChart extends StatefulWidget {
-  // ignore: prefer_const_constructors_in_immutables
-  CustomMobileBarChart({Key? key}) : super(key: key);
+  const CustomMobileBarChart({Key? key}) : super(key: key);
 
   @override
   _CustomMobileBarChartPageState createState() =>
@@ -15,43 +13,22 @@ class CustomMobileBarChart extends StatefulWidget {
 }
 
 class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
-  late List<_ChartData> data;
+  late List<_ChartData> data = [];
+
   late TooltipBehavior _tooltip;
+
+  double a = 0.0, b = 0.0, c = 0.0;
+  double today = 0.0;
+  double x = 0.0, y = 0.0, z = 0.0;
 
   @override
   void initState() {
-    getWeather();
-    data = [
-      _ChartData(
-          DateFormat('E').format(
-            DateTime.now().add(Duration(days: 3)),
-          ),
-          22),
-      _ChartData(
-          DateFormat('E').format(
-            DateTime.now().add(Duration(days: 2)),
-          ),
-          25.0),
-      _ChartData("Tomorrow", 50.0),
-      _ChartData("Today", 30),
-      _ChartData("Yesterday", 23.0),
-      _ChartData(
-          DateFormat('E').format(
-            DateTime.now().add(Duration(days: -2)),
-          ),
-          25.0),
-      _ChartData(
-          DateFormat('E').format(
-            DateTime.now().add(Duration(days: -3)),
-          ),
-          33.0),
-    ];
-
+    super.initState();
     _tooltip = TooltipBehavior(
         textStyle: TextStyle(color: const Color.fromARGB(255, 2, 2, 2)),
         enable: true,
         color: Color.fromARGB(255, 255, 255, 255));
-    super.initState();
+    getWeather();
   }
 
   Color getBarColor(double value) {
@@ -75,31 +52,24 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
         enableAxisAnimation: true,
         title: ChartTitle(
             text: 'Temperature',
-            textStyle: GoogleFonts.mada(shadows: [
-              Shadow(
-                blurRadius: 10.0,
-                color: const Color.fromARGB(255, 0, 0, 0),
-                offset: Offset(5.0, 5.0),
-              ),
-            ], color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500)),
+            textStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 17,
+                fontWeight: FontWeight.w500)),
         primaryXAxis: CategoryAxis(
-            labelStyle: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+            labelStyle: TextStyle(color: Colors.white),
             axisLine: AxisLine(color: Colors.white)),
         primaryYAxis: NumericAxis(
           minimum: 0,
           maximum: 60,
           interval: 5,
           axisLine: AxisLine(
-            color: Color.fromARGB(
-                255, 255, 255, 255), // Change axis line color to white
+            color: Colors.white,
           ),
           majorTickLines: MajorTickLines(
-            color: Color.fromARGB(
-                255, 255, 255, 255), // Change major tick line color to white
+            color: Colors.white,
           ),
-          labelStyle: TextStyle(
-              color: Color.fromARGB(
-                  255, 255, 255, 255)), // Change labels color to white
+          labelStyle: TextStyle(color: Colors.white),
         ),
         tooltipBehavior: _tooltip,
         series: <CartesianSeries<_ChartData, String>>[
@@ -126,8 +96,43 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
       var response = await client.get(url);
 
       if (response.statusCode == 200) {
-        var data = response.body;
-        print(data);
+        var responseData = response.body;
+        var decodeData = json.decode(responseData);
+        setState(() {
+          a = decodeData['Temperature'][0].toDouble();
+          b = decodeData['Temperature'][1].toDouble();
+          c = decodeData['Temperature'][2].toDouble();
+          today = decodeData['Temperature'][3].toDouble();
+
+          x = decodeData['Temperature'][4].toDouble();
+          y = decodeData['Temperature'][5].toDouble();
+          z = decodeData['Temperature'][6].toDouble();
+          data = [
+            _ChartData(
+                DateFormat('E').format(
+                  DateTime.now().add(Duration(days: 3)),
+                ),
+                a),
+            _ChartData(
+                DateFormat('E').format(
+                  DateTime.now().add(Duration(days: 2)),
+                ),
+                b),
+            _ChartData("Tomorrow", c),
+            _ChartData("Today", today),
+            _ChartData("Yesterday", x),
+            _ChartData(
+                DateFormat('E').format(
+                  DateTime.now().add(Duration(days: -2)),
+                ),
+                y),
+            _ChartData(
+                DateFormat('E').format(
+                  DateTime.now().add(Duration(days: -3)),
+                ),
+                z),
+          ];
+        });
       } else {
         print('Request failed with status: ${response.statusCode}');
       }
@@ -140,8 +145,8 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
 }
 
 class _ChartData {
-  _ChartData(this.x, this.y);
-
   final String x;
   final double y;
+
+  _ChartData(this.x, this.y);
 }
