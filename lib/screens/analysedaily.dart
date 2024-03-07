@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class AnalseDaily extends StatefulWidget {
-  const AnalseDaily({super.key});
+class AnalsisDaily extends StatefulWidget {
+  const AnalsisDaily({super.key});
 
   @override
-  State<AnalseDaily> createState() => _AnalseDailyState();
+  State<AnalsisDaily> createState() => _AnalsisDailyState();
 }
 
-class _AnalseDailyState extends State<AnalseDaily> {
+class _AnalsisDailyState extends State<AnalsisDaily> {
   bool isLoded = false;
   double temperature = 0; // Remove default value assignment
   double humidity = 0;

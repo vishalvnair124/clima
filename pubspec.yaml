@@ -38,10 +38,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.1.0
   google_fonts: ^6.1.0
-  fl_chart: ^0.66.2
   syncfusion_flutter_gauges: ^21.2.4
   syncfusion_flutter_charts: ^21.2.4
   flutter_analog_clock: ^1.0.3
+  shared_preferences: ^2.2.2
   
 
 dev_dependencies:

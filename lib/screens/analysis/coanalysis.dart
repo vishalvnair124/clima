@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class TempAna extends StatefulWidget {
+class CoAnalysis extends StatefulWidget {
   DateTime date;
-  TempAna({Key? key, required this.date}) : super(key: key);
+  CoAnalysis({Key? key, required this.date}) : super(key: key);
   @override
-  State<TempAna> createState() => _TempAnaState();
+  State<CoAnalysis> createState() => _CoAnalysisState();
 }
 
-class _TempAnaState extends State<TempAna> {
+class _CoAnalysisState extends State<CoAnalysis> {
   late DateTime selectedDate;
   late List<_ChartData> data = [];
   late List<double> x = List<double>.filled(12, 0.0);
@@ -45,7 +45,7 @@ class _TempAnaState extends State<TempAna> {
   }
 
   @override
-  void didUpdateWidget(TempAna oldWidget) {
+  void didUpdateWidget(CoAnalysis oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Fetch weather data whenever the widget is updated with a new date
     if (oldWidget.date != widget.date) {
@@ -85,7 +85,7 @@ class _TempAnaState extends State<TempAna> {
               isTransposed: true,
               enableAxisAnimation: true,
               title: ChartTitle(
-                text: 'Temperature',
+                text: 'CO',
                 textStyle: TextStyle(
                   color: const Color.fromARGB(255, 0, 0, 0),
                   fontSize: 17,
@@ -113,7 +113,7 @@ class _TempAnaState extends State<TempAna> {
                   dataSource: data,
                   xValueMapper: (_ChartData data, _) => data.x,
                   yValueMapper: (_ChartData data, _) => data.y,
-                  name: "Temperature",
+                  name: "CO",
                   pointColorMapper: (_ChartData data, _) => getBarColor(data.y),
                   color: Colors.deepPurpleAccent,
                 )
@@ -142,18 +142,18 @@ class _TempAnaState extends State<TempAna> {
         print(decodeData);
 
         setState(() {
-          x[0] = decodeData['0']['Temperature'].toDouble();
-          x[1] = decodeData['2']['Temperature'].toDouble();
-          x[2] = decodeData['4']['Temperature'].toDouble();
-          x[3] = decodeData['6']['Temperature'].toDouble();
-          x[4] = decodeData['8']['Temperature'].toDouble();
-          x[5] = decodeData['10']['Temperature'].toDouble();
-          x[6] = decodeData['12']['Temperature'].toDouble();
-          x[7] = decodeData['14']['Temperature'].toDouble();
-          x[8] = decodeData['16']['Temperature'].toDouble();
-          x[9] = decodeData['18']['Temperature'].toDouble();
-          x[10] = decodeData['20']['Temperature'].toDouble();
-          x[11] = decodeData['22']['Temperature'].toDouble();
+          x[0] = decodeData['0']['CO_Level'].toDouble();
+          x[1] = decodeData['2']['CO_Level'].toDouble();
+          x[2] = decodeData['4']['CO_Level'].toDouble();
+          x[3] = decodeData['6']['CO_Level'].toDouble();
+          x[4] = decodeData['8']['CO_Level'].toDouble();
+          x[5] = decodeData['10']['CO_Level'].toDouble();
+          x[6] = decodeData['12']['CO_Level'].toDouble();
+          x[7] = decodeData['14']['CO_Level'].toDouble();
+          x[8] = decodeData['16']['CO_Level'].toDouble();
+          x[9] = decodeData['18']['CO_Level'].toDouble();
+          x[10] = decodeData['20']['CO_Level'].toDouble();
+          x[11] = decodeData['22']['CO_Level'].toDouble();
 
           data = [
             _ChartData("12am", x[0]),

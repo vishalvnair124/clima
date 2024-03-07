@@ -186,6 +186,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () async {
+                                    // Check if all text fields are non-empty
+                                    if (_nameController.text.isEmpty ||
+                                        _emailController.text.isEmpty ||
+                                        _passwordController.text.isEmpty ||
+                                        _confirmPasswordController
+                                            .text.isEmpty) {
+                                      setState(() {
+                                        msg = "Please fill in all fields";
+                                        isSignupreq = true;
+                                      });
+                                      return; // Exit the function if any field is empty
+                                    }
+
+                                    // Proceed with other validations and sign-up process
                                     setState(() {
                                       isSignupreq = false;
                                     });
@@ -193,8 +207,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     String email = _emailController.text;
                                     String password = _passwordController.text;
                                     int rand = Random().nextInt(9000) + 1000;
-                                    bool emailExists = await checkEmailExistence(
-                                        email); // Use await within an async function
+                                    bool emailExists =
+                                        await checkEmailExistence(email);
                                     if (!emailExists) {
                                       await sendEmailWithOTP(
                                           email, rand.toString());

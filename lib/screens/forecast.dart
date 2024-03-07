@@ -1,9 +1,9 @@
-import 'package:clima/screens/coforecast.dart';
-import 'package:clima/screens/noforecast.dart';
-import 'package:clima/screens/soforecast.dart';
+import 'package:clima/screens/forecast/coforecast.dart';
+import 'package:clima/screens/forecast/noforecast.dart';
+import 'package:clima/screens/forecast/soforecast.dart';
 import 'package:flutter/material.dart';
-import 'package:clima/screens/aqiforecast.dart';
-import 'package:clima/screens/pmforecast.dart';
+import 'package:clima/screens/forecast/aqiforecast.dart';
+import 'package:clima/screens/forecast/pmforecast.dart';
 
 class Forecast extends StatefulWidget {
   const Forecast({super.key});

@@ -108,29 +108,37 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
           y = decodeData['Temperature'][5].toDouble();
           z = decodeData['Temperature'][6].toDouble();
           data = [
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 3)),
-                ),
-                a),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 2)),
-                ),
-                b),
-            _ChartData("Tomorrow", c),
             _ChartData("Today", today),
-            _ChartData("Yesterday", x),
             _ChartData(
                 DateFormat('E').format(
-                  DateTime.now().add(Duration(days: -2)),
+                  DateTime.now().add(Duration(days: 1)),
                 ),
                 y),
             _ChartData(
                 DateFormat('E').format(
-                  DateTime.now().add(Duration(days: -3)),
+                  DateTime.now().add(Duration(days: 2)),
                 ),
-                z),
+                y),
+            _ChartData(
+                DateFormat('E').format(
+                  DateTime.now().add(Duration(days: 3)),
+                ),
+                y),
+            _ChartData(
+                DateFormat('E').format(
+                  DateTime.now().add(Duration(days: 4)),
+                ),
+                y),
+            _ChartData(
+                DateFormat('E').format(
+                  DateTime.now().add(Duration(days: 5)),
+                ),
+                y),
+            _ChartData(
+                DateFormat('E').format(
+                  DateTime.now().add(Duration(days: 6)),
+                ),
+                y),
           ];
         });
       } else {

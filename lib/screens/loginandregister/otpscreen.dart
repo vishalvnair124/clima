@@ -106,10 +106,21 @@ class _OtpScreenState extends State<OtpScreen> {
             Visibility(
               visible: !isSignupreq,
               child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    Color(0xFF3BDD38), // Set the background color
+                  ),
+                ),
                 onPressed: _isLoading ? null : _verifyOtp,
                 child: _isLoading
                     ? CircularProgressIndicator()
-                    : Text('Verify OTP'),
+                    : Text(
+                        'Verify OTP',
+                        style: GoogleFonts.mada(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                      ),
               ),
             ),
             Center(
