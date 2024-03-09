@@ -362,7 +362,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${pressure}",
+                                  "${pressure.toStringAsFixed(1)}",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF454545),
                                       fontSize: 45,

@@ -15,27 +15,67 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class AnalysisFullDay extends StatefulWidget {
-  const AnalysisFullDay({super.key});
+  const AnalysisFullDay({Key? key}) : super(key: key);
 
   @override
   State<AnalysisFullDay> createState() => _AnalysisFullDayState();
 }
 
 class _AnalysisFullDayState extends State<AnalysisFullDay> {
-  DateTime selectedDate = DateTime.now();
-  bool isLoded = false;
+  DateTime selectedDate = DateTime.now().add(const Duration(days: -1));
+  bool isLoaded = true;
+  late http.Client client;
+
+  @override
+  void initState() {
+    super.initState();
+    client = http.Client();
+  }
+
+  @override
+  void dispose() {
+    client.close(); // Close the HTTP client to cancel ongoing requests
+    super.dispose();
+  }
 
   void _showDatePicker() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2024),
-      lastDate: DateTime(2025), // Change this to a date in the future
+      lastDate: DateTime.now().add(const Duration(days: -1)),
     );
 
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
+      });
+      getWeather();
+    }
+  }
+
+  void getWeather() async {
+    try {
+      var uri =
+          'http://10.0.2.2:8000/hourly_weather/${DateFormat('yyyy-MM-dd').format(selectedDate)}';
+
+      var url = Uri.parse(uri);
+      var response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          isLoaded = true;
+        });
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+        setState(() {
+          isLoaded = false;
+        });
+      }
+    } catch (e) {
+      print('Error fetching weather: $e');
+      setState(() {
+        isLoaded = false;
       });
     }
   }
@@ -52,26 +92,24 @@ class _AnalysisFullDayState extends State<AnalysisFullDay> {
                 MaterialButton(
                   color: const Color(0xFF3BDD38),
                   onPressed: () {
-                    _showDatePicker(); // Corrected method name
-                    getWeather();
+                    _showDatePicker();
                   },
                   child: Text(
                     DateFormat('dd-MM-yyyy').format(
                       selectedDate,
-                    ), // Corrected spelling
-
+                    ),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255)),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 )
               ],
             ),
           ),
           Visibility(
-            visible: isLoded,
+            visible: isLoaded,
             replacement: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.7,
@@ -79,7 +117,7 @@ class _AnalysisFullDayState extends State<AnalysisFullDay> {
                 child: Text(
                   "NO data Available",
                   style: GoogleFonts.mada(
-                      color: Color(0xFF454545),
+                      color: const Color(0xFF454545),
                       fontSize: 40,
                       fontWeight: FontWeight.w500),
                 ),
@@ -138,31 +176,5 @@ class _AnalysisFullDayState extends State<AnalysisFullDay> {
         ],
       ),
     );
-  }
-
-  void getWeather() async {
-    var client = http.Client();
-    try {
-      var uri =
-          'http://10.0.2.2:8000/hourly_weather/${DateFormat('yyyy-MM-dd').format(selectedDate)}';
-
-      var url = Uri.parse(uri);
-      var response = await client.get(url);
-
-      if (response.statusCode == 200) {
-        setState(() {
-          isLoded = true;
-        });
-      } else {
-        print('Request failed with status  eee: ${response.statusCode}');
-        setState(() {
-          isLoded = false;
-        });
-      }
-    } catch (e) {
-      print('Error fetching weather: $e');
-    } finally {
-      client.close();
-    }
   }
 }

@@ -66,7 +66,7 @@ class _CoForecastState extends State<CoForecast> {
               isTransposed: true,
               enableAxisAnimation: true,
               title: ChartTitle(
-                  text: 'CO2',
+                  text: 'CO',
                   textStyle: TextStyle(
                       color: const Color.fromARGB(255, 0, 0, 0),
                       fontSize: 17,
@@ -96,7 +96,7 @@ class _CoForecastState extends State<CoForecast> {
                     dataSource: data,
                     xValueMapper: (_ChartData data, _) => data.x,
                     yValueMapper: (_ChartData data, _) => data.y,
-                    name: "CO2",
+                    name: "CO",
                     pointColorMapper: (_ChartData data, _) =>
                         getBarColor(data.y),
                     color: Colors.deepPurpleAccent)
@@ -111,52 +111,43 @@ class _CoForecastState extends State<CoForecast> {
   void getWeather() async {
     var client = http.Client();
     try {
-      x = List<double>.filled(7, 0.0);
       var uri = 'http://10.0.2.2:8000/forecast';
       var url = Uri.parse(uri);
       var response = await client.get(url);
 
       if (response.statusCode == 200) {
         var responseData = response.body;
-        var decodeData = json.decode(responseData);
+        var decodedData = json.decode(responseData);
+
+        List<double> xValues = [];
+
+        // Extract values
+        for (var i = 7; i <= 13; i++) {
+          if (decodedData['CO'] != null &&
+              decodedData['CO'][i.toString()] != null) {
+            xValues.add(decodedData['CO'][i.toString()].toDouble());
+          } else {
+            xValues.add(0.0); // Or any default value you prefer
+          }
+        }
 
         setState(() {
-          for (int i = 0; i < 7; i++) {
-            x[i] = decodeData['CO2']['100' + i.toString()];
-          }
-          data = [
-            _ChartData("Tomorrow", x[0]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 1)),
-                ),
-                x[1]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 2)),
-                ),
-                x[2]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 3)),
-                ),
-                x[3]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 4)),
-                ),
-                x[4]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 5)),
-                ),
-                x[5]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 6)),
-                ),
-                x[6]),
-          ];
+          // Update data list
+          data = List.generate(xValues.length, (index) {
+            if (index == 0) {
+              return _ChartData(
+                "Tomorrow",
+                xValues[index],
+              );
+            } else {
+              DateTime currentDate =
+                  DateTime.now().add(Duration(days: index + 1));
+              return _ChartData(
+                DateFormat('E').format(currentDate),
+                xValues[index],
+              );
+            }
+          });
         });
       } else {
         print('Request failed with status: ${response.statusCode}');

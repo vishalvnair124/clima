@@ -18,6 +18,7 @@ class _SoAnalysisState extends State<SoAnalysis> {
   late List<_ChartData> data = [];
   late List<double> x = List<double>.filled(12, 0.0);
   late TooltipBehavior _tooltip;
+  bool _isMounted = false;
 
   Color getBarColor(double value) {
     if (value < 30.0) {
@@ -40,7 +41,7 @@ class _SoAnalysisState extends State<SoAnalysis> {
       enable: true,
       color: Color.fromARGB(255, 255, 255, 255),
     );
-
+    _isMounted = true; // Set the flag to true when the widget is mounted
     getWeather();
   }
 
@@ -125,11 +126,17 @@ class _SoAnalysisState extends State<SoAnalysis> {
     );
   }
 
+  @override
+  void dispose() {
+    _isMounted = false; // Set the flag to false when the widget is disposed
+    super.dispose();
+  }
+
   void getWeather() async {
     var client = http.Client();
     try {
       x = List<double>.filled(12, 0.0);
-      print(selectedDate);
+      // print(selectedDate);
       var uri =
           'http://10.0.2.2:8000/hourly_weather/${DateFormat('yyyy-MM-dd').format(selectedDate)}';
 
@@ -139,37 +146,40 @@ class _SoAnalysisState extends State<SoAnalysis> {
       if (response.statusCode == 200) {
         var responseData = response.body;
         var decodeData = json.decode(responseData);
-        print(decodeData);
+        // print(decodeData);
 
-        setState(() {
-          x[0] = decodeData['0']['SO2_Level'].toDouble();
-          x[1] = decodeData['2']['SO2_Level'].toDouble();
-          x[2] = decodeData['4']['SO2_Level'].toDouble();
-          x[3] = decodeData['6']['SO2_Level'].toDouble();
-          x[4] = decodeData['8']['SO2_Level'].toDouble();
-          x[5] = decodeData['10']['SO2_Level'].toDouble();
-          x[6] = decodeData['12']['SO2_Level'].toDouble();
-          x[7] = decodeData['14']['SO2_Level'].toDouble();
-          x[8] = decodeData['16']['SO2_Level'].toDouble();
-          x[9] = decodeData['18']['SO2_Level'].toDouble();
-          x[10] = decodeData['20']['SO2_Level'].toDouble();
-          x[11] = decodeData['22']['SO2_Level'].toDouble();
+        if (_isMounted) {
+          // Check if the widget is still mounted
+          setState(() {
+            x[0] = decodeData['0']['SO2_Level'].toDouble();
+            x[1] = decodeData['2']['SO2_Level'].toDouble();
+            x[2] = decodeData['4']['SO2_Level'].toDouble();
+            x[3] = decodeData['6']['SO2_Level'].toDouble();
+            x[4] = decodeData['8']['SO2_Level'].toDouble();
+            x[5] = decodeData['10']['SO2_Level'].toDouble();
+            x[6] = decodeData['12']['SO2_Level'].toDouble();
+            x[7] = decodeData['14']['SO2_Level'].toDouble();
+            x[8] = decodeData['16']['SO2_Level'].toDouble();
+            x[9] = decodeData['18']['SO2_Level'].toDouble();
+            x[10] = decodeData['20']['SO2_Level'].toDouble();
+            x[11] = decodeData['22']['SO2_Level'].toDouble();
 
-          data = [
-            _ChartData("12am", x[0]),
-            _ChartData("2am", x[1]),
-            _ChartData("4am", x[2]),
-            _ChartData("6am", x[3]),
-            _ChartData("8am", x[4]),
-            _ChartData("10am", x[5]),
-            _ChartData("12n", x[6]),
-            _ChartData("2pm", x[7]),
-            _ChartData("4pm", x[8]),
-            _ChartData("6pm", x[9]),
-            _ChartData("8pm", x[10]),
-            _ChartData("10pm", x[11]),
-          ];
-        });
+            data = [
+              _ChartData("12am", x[0]),
+              _ChartData("2am", x[1]),
+              _ChartData("4am", x[2]),
+              _ChartData("6am", x[3]),
+              _ChartData("8am", x[4]),
+              _ChartData("10am", x[5]),
+              _ChartData("12n", x[6]),
+              _ChartData("2pm", x[7]),
+              _ChartData("4pm", x[8]),
+              _ChartData("6pm", x[9]),
+              _ChartData("8pm", x[10]),
+              _ChartData("10pm", x[11]),
+            ];
+          });
+        }
       } else {
         print('Request failed with status  eee: ${response.statusCode}');
       }

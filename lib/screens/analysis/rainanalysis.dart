@@ -18,18 +18,7 @@ class _RainAnalysisState extends State<RainAnalysis> {
   late List<_ChartData> data = [];
   late List<double> x = List<double>.filled(12, 0.0);
   late TooltipBehavior _tooltip;
-
-  Color getBarColor(double value) {
-    if (value < 30.0) {
-      return Colors.green;
-    } else if (value < 35.0) {
-      return Colors.yellow;
-    } else if (value < 40.0) {
-      return Color.fromARGB(255, 235, 136, 16);
-    } else {
-      return Colors.red;
-    }
-  }
+  bool _isMounted = false;
 
   @override
   void initState() {
@@ -40,7 +29,7 @@ class _RainAnalysisState extends State<RainAnalysis> {
       enable: true,
       color: Color.fromARGB(255, 255, 255, 255),
     );
-
+    _isMounted = true; // Set the flag to true when the widget is mounted
     getWeather();
   }
 
@@ -125,11 +114,17 @@ class _RainAnalysisState extends State<RainAnalysis> {
     );
   }
 
+  @override
+  void dispose() {
+    _isMounted = false; // Set the flag to false when the widget is disposed
+    super.dispose();
+  }
+
   void getWeather() async {
     var client = http.Client();
     try {
       x = List<double>.filled(12, 0.0);
-      print(selectedDate);
+      //print(selectedDate);
       var uri =
           'http://10.0.2.2:8000/hourly_weather/${DateFormat('yyyy-MM-dd').format(selectedDate)}';
 
@@ -139,37 +134,40 @@ class _RainAnalysisState extends State<RainAnalysis> {
       if (response.statusCode == 200) {
         var responseData = response.body;
         var decodeData = json.decode(responseData);
-        print(decodeData);
+        // print(decodeData);
 
-        setState(() {
-          x[0] = decodeData['0']['Rainfall'].toDouble();
-          x[1] = decodeData['2']['Rainfall'].toDouble();
-          x[2] = decodeData['4']['Rainfall'].toDouble();
-          x[3] = decodeData['6']['Rainfall'].toDouble();
-          x[4] = decodeData['8']['Rainfall'].toDouble();
-          x[5] = decodeData['10']['Rainfall'].toDouble();
-          x[6] = decodeData['12']['Rainfall'].toDouble();
-          x[7] = decodeData['14']['Rainfall'].toDouble();
-          x[8] = decodeData['16']['Rainfall'].toDouble();
-          x[9] = decodeData['18']['Rainfall'].toDouble();
-          x[10] = decodeData['20']['Rainfall'].toDouble();
-          x[11] = decodeData['22']['Rainfall'].toDouble();
+        if (_isMounted) {
+          // Check if the widget is still mounted
+          setState(() {
+            x[0] = decodeData['0']['Rainfall'].toDouble();
+            x[1] = decodeData['2']['Rainfall'].toDouble();
+            x[2] = decodeData['4']['Rainfall'].toDouble();
+            x[3] = decodeData['6']['Rainfall'].toDouble();
+            x[4] = decodeData['8']['Rainfall'].toDouble();
+            x[5] = decodeData['10']['Rainfall'].toDouble();
+            x[6] = decodeData['12']['Rainfall'].toDouble();
+            x[7] = decodeData['14']['Rainfall'].toDouble();
+            x[8] = decodeData['16']['Rainfall'].toDouble();
+            x[9] = decodeData['18']['Rainfall'].toDouble();
+            x[10] = decodeData['20']['Rainfall'].toDouble();
+            x[11] = decodeData['22']['Rainfall'].toDouble();
 
-          data = [
-            _ChartData("12am", x[0]),
-            _ChartData("2am", x[1]),
-            _ChartData("4am", x[2]),
-            _ChartData("6am", x[3]),
-            _ChartData("8am", x[4]),
-            _ChartData("10am", x[5]),
-            _ChartData("12n", x[6]),
-            _ChartData("2pm", x[7]),
-            _ChartData("4pm", x[8]),
-            _ChartData("6pm", x[9]),
-            _ChartData("8pm", x[10]),
-            _ChartData("10pm", x[11]),
-          ];
-        });
+            data = [
+              _ChartData("12am", x[0]),
+              _ChartData("2am", x[1]),
+              _ChartData("4am", x[2]),
+              _ChartData("6am", x[3]),
+              _ChartData("8am", x[4]),
+              _ChartData("10am", x[5]),
+              _ChartData("12n", x[6]),
+              _ChartData("2pm", x[7]),
+              _ChartData("4pm", x[8]),
+              _ChartData("6pm", x[9]),
+              _ChartData("8pm", x[10]),
+              _ChartData("10pm", x[11]),
+            ];
+          });
+        }
       } else {
         print('Request failed with status  eee: ${response.statusCode}');
       }
@@ -177,6 +175,18 @@ class _RainAnalysisState extends State<RainAnalysis> {
       print('Error fetching weather: $e');
     } finally {
       client.close();
+    }
+  }
+
+  Color getBarColor(double value) {
+    if (value < 30.0) {
+      return Colors.green;
+    } else if (value < 35.0) {
+      return Colors.yellow;
+    } else if (value < 40.0) {
+      return Color.fromARGB(255, 235, 136, 16);
+    } else {
+      return Colors.red;
     }
   }
 }

@@ -98,15 +98,16 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
       if (response.statusCode == 200) {
         var responseData = response.body;
         var decodeData = json.decode(responseData);
-        //print(decodeData);
+        print(decodeData);
         setState(() {
-          today = decodeData['Today_Temperature'];
-          a = decodeData['Temperature']['1000'];
-          b = decodeData['Temperature']['1001'];
-          c = decodeData['Temperature']['1002'];
-          d = decodeData['Temperature']['1003'];
-          e = decodeData['Temperature']['1004'];
-          f = decodeData['Temperature']['1005'];
+          today = decodeData['Today_Temperature'] ?? 0.0;
+          a = decodeData['Temperature']['7'];
+          b = decodeData['Temperature']['8'];
+          c = decodeData['Temperature']['9'];
+          d = decodeData['Temperature']['10'];
+          e = decodeData['Temperature']['11'];
+          f = decodeData['Temperature']['12'];
+
           data = [
             _ChartData("Today", today),
             _ChartData(

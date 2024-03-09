@@ -129,17 +129,17 @@ class _CoAnalysisState extends State<CoAnalysis> {
     var client = http.Client();
     try {
       x = List<double>.filled(12, 0.0);
-      print(selectedDate);
+      // print(selectedDate);
       var uri =
           'http://10.0.2.2:8000/hourly_weather/${DateFormat('yyyy-MM-dd').format(selectedDate)}';
 
       var url = Uri.parse(uri);
       var response = await client.get(url);
 
-      if (response.statusCode == 200) {
+      if (this.mounted && response.statusCode == 200) {
         var responseData = response.body;
         var decodeData = json.decode(responseData);
-        print(decodeData);
+        // print(decodeData);
 
         setState(() {
           x[0] = decodeData['0']['CO_Level'].toDouble();
@@ -171,7 +171,7 @@ class _CoAnalysisState extends State<CoAnalysis> {
           ];
         });
       } else {
-        print('Request failed with status  eee: ${response.statusCode}');
+        print('Request failed with status: ${response.statusCode}');
       }
     } catch (e) {
       print('Error fetching weather: $e');

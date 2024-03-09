@@ -129,7 +129,7 @@ class _PressureAnalysisState extends State<PressureAnalysis> {
     var client = http.Client();
     try {
       x = List<double>.filled(12, 0.0);
-      print(selectedDate);
+      //print(selectedDate);
       var uri =
           'http://10.0.2.2:8000/hourly_weather/${DateFormat('yyyy-MM-dd').format(selectedDate)}';
 
@@ -139,37 +139,40 @@ class _PressureAnalysisState extends State<PressureAnalysis> {
       if (response.statusCode == 200) {
         var responseData = response.body;
         var decodeData = json.decode(responseData);
-        print(decodeData);
+        //print(decodeData);
 
-        setState(() {
-          x[0] = decodeData['0']['Pressure'].toDouble();
-          x[1] = decodeData['2']['Pressure'].toDouble();
-          x[2] = decodeData['4']['Pressure'].toDouble();
-          x[3] = decodeData['6']['Pressure'].toDouble();
-          x[4] = decodeData['8']['Pressure'].toDouble();
-          x[5] = decodeData['10']['Pressure'].toDouble();
-          x[6] = decodeData['12']['Pressure'].toDouble();
-          x[7] = decodeData['14']['Pressure'].toDouble();
-          x[8] = decodeData['16']['Pressure'].toDouble();
-          x[9] = decodeData['18']['Pressure'].toDouble();
-          x[10] = decodeData['20']['Pressure'].toDouble();
-          x[11] = decodeData['22']['Pressure'].toDouble();
+        if (mounted) {
+          // Check if the widget is mounted before calling setState()
+          setState(() {
+            x[0] = decodeData['0']['Pressure'].toDouble();
+            x[1] = decodeData['2']['Pressure'].toDouble();
+            x[2] = decodeData['4']['Pressure'].toDouble();
+            x[3] = decodeData['6']['Pressure'].toDouble();
+            x[4] = decodeData['8']['Pressure'].toDouble();
+            x[5] = decodeData['10']['Pressure'].toDouble();
+            x[6] = decodeData['12']['Pressure'].toDouble();
+            x[7] = decodeData['14']['Pressure'].toDouble();
+            x[8] = decodeData['16']['Pressure'].toDouble();
+            x[9] = decodeData['18']['Pressure'].toDouble();
+            x[10] = decodeData['20']['Pressure'].toDouble();
+            x[11] = decodeData['22']['Pressure'].toDouble();
 
-          data = [
-            _ChartData("12am", x[0]),
-            _ChartData("2am", x[1]),
-            _ChartData("4am", x[2]),
-            _ChartData("6am", x[3]),
-            _ChartData("8am", x[4]),
-            _ChartData("10am", x[5]),
-            _ChartData("12n", x[6]),
-            _ChartData("2pm", x[7]),
-            _ChartData("4pm", x[8]),
-            _ChartData("6pm", x[9]),
-            _ChartData("8pm", x[10]),
-            _ChartData("10pm", x[11]),
-          ];
-        });
+            data = [
+              _ChartData("12am", x[0]),
+              _ChartData("2am", x[1]),
+              _ChartData("4am", x[2]),
+              _ChartData("6am", x[3]),
+              _ChartData("8am", x[4]),
+              _ChartData("10am", x[5]),
+              _ChartData("12n", x[6]),
+              _ChartData("2pm", x[7]),
+              _ChartData("4pm", x[8]),
+              _ChartData("6pm", x[9]),
+              _ChartData("8pm", x[10]),
+              _ChartData("10pm", x[11]),
+            ];
+          });
+        }
       } else {
         print('Request failed with status  eee: ${response.statusCode}');
       }
@@ -178,6 +181,12 @@ class _PressureAnalysisState extends State<PressureAnalysis> {
     } finally {
       client.close();
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }
 

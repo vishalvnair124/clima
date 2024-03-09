@@ -112,56 +112,47 @@ class _AqiForecastState extends State<AqiForecast> {
   void getWeather() async {
     var client = http.Client();
     try {
-      aqi = List<double>.filled(7, 0.0);
       var uri = 'http://10.0.2.2:8000/forecast';
       var url = Uri.parse(uri);
       var response = await client.get(url);
 
       if (response.statusCode == 200) {
         var responseData = response.body;
-        var decodeData = json.decode(responseData);
+        var decodedData = json.decode(responseData);
+
+        print(decodedData);
+
+        List<double> aqiValues = [];
+
+        // Extract PM25 values
+        for (var i = 7; i <= 13; i++) {
+          if (decodedData['PM25'] != null &&
+              decodedData['PM25'][i.toString()] != null) {
+            double pm25Value = decodedData['PM25'][i.toString()].toDouble();
+            // Calculate AQI for the current PM25 value
+            double aqi = overallAqi(
+              pm25Value,
+              decodedData['SO2']?[i.toString()]?.toDouble() ?? 0.0,
+              decodedData['CO']?[i.toString()]?.toDouble() ?? 0.0,
+              decodedData['NO2']?[i.toString()]?.toDouble() ?? 0.0,
+            );
+            aqiValues.add(aqi);
+          } else {
+            aqiValues.add(0.0); // Or any default value you prefer
+          }
+        }
 
         setState(() {
-          for (int i = 0; i < 7; i++) {
-            aqi[i] = overallAqi(
-                decodeData['PM25']['100' + i.toString()],
-                decodeData['SO2']['100' + i.toString()],
-                decodeData['CO2']['100' + i.toString()],
-                decodeData['NO2']['100' + i.toString()]);
-          }
-          data = [
-            _ChartData("Tomorrow", aqi[0]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 1)),
-                ),
-                aqi[1]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 2)),
-                ),
-                aqi[2]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 3)),
-                ),
-                aqi[3]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 4)),
-                ),
-                aqi[4]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 5)),
-                ),
-                aqi[5]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 6)),
-                ),
-                aqi[6]),
-          ];
+          aqi = aqiValues;
+
+          // Generate data for the next 7 days
+          data = List.generate(aqi.length, (index) {
+            DateTime currentDate = DateTime.now()
+                .add(Duration(days: index + 1)); // Start from tomorrow
+            String label =
+                index == 0 ? "Tomorrow" : DateFormat('E').format(currentDate);
+            return _ChartData(label, aqi[index]);
+          });
         });
       } else {
         print('Request failed with status: ${response.statusCode}');

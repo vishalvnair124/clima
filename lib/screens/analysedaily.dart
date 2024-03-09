@@ -37,7 +37,7 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2024),
-      lastDate: DateTime(2025), // Change this to a date in the future
+      lastDate: DateTime.now(), // Change this to a date in the future
     );
 
     if (pickedDate != null && pickedDate != selectedDate) {
@@ -408,7 +408,7 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${airQualityIndex}",
+                                  "${airQualityIndex.toStringAsFixed(2)}",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF454545),
                                       fontSize: 55,
@@ -888,38 +888,43 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
     var client = http.Client();
     try {
       var uri =
-          'http://10.0.2.2:8000/hourly_weather/ ${DateFormat('yyyy-MM-dd').format(selectedDate)}/${selectedTime.hour}';
+          'http://10.0.2.2:8000/hourly_weather/${DateFormat('yyyy-MM-dd').format(selectedDate)}/${selectedTime.hour}';
       var url = Uri.parse(uri);
       var response = await client.get(url);
 
-      if (response.statusCode == 200) {
-        var data = response.body;
-        print(data);
-        Map<String, dynamic> jsonMap = json.decode(data);
-        HourWeatherData weatherData = HourWeatherData.fromJson(jsonMap);
+      if (mounted) {
+        // Check if the widget is still mounted
+        if (response.statusCode == 200) {
+          var data = response.body;
+          print(data);
+          Map<String, dynamic> jsonMap = json.decode(data);
+          HourWeatherData weatherData = HourWeatherData.fromJson(jsonMap);
 
-        setState(() {
-          isLoded = true;
-          airQualityIndex = overallAqi(weatherData.pm25!, weatherData.so2Level!,
-              weatherData.coLevel!, weatherData.no2Level!);
-          temperature = weatherData.temperature!;
-          humidity = weatherData.humidity!;
-          pressure = weatherData.pressure!;
-
-          rainfall = weatherData.rainfall!;
-          uvIndex = weatherData.uvIndex!;
-          windSpeed = weatherData.windSpeed!;
-          windDirection = weatherData.windDirection!;
-          coLevel = weatherData.coLevel!;
-          pm25 = weatherData.pm25!;
-          so2Level = weatherData.so2Level!;
-          no2Level = weatherData.no2Level!;
-        });
-      } else {
-        setState(() {
-          isLoded = false;
-        });
-        print('Request failed with status: ${response.statusCode}');
+          setState(() {
+            isLoded = true;
+            airQualityIndex = overallAqi(
+                weatherData.pm25!,
+                weatherData.so2Level!,
+                weatherData.coLevel!,
+                weatherData.no2Level!);
+            temperature = weatherData.temperature!;
+            humidity = weatherData.humidity!;
+            pressure = weatherData.pressure!;
+            rainfall = weatherData.rainfall!;
+            uvIndex = weatherData.uvIndex!;
+            windSpeed = weatherData.windSpeed!;
+            windDirection = weatherData.windDirection!;
+            coLevel = weatherData.coLevel!;
+            pm25 = weatherData.pm25!;
+            so2Level = weatherData.so2Level!;
+            no2Level = weatherData.no2Level!;
+          });
+        } else {
+          setState(() {
+            isLoded = false;
+          });
+          print('Request failed with status: ${response.statusCode}');
+        }
       }
     } catch (e) {
       print('Error fetching weather: $e');
@@ -930,6 +935,14 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
 
   void initState() {
     super.initState();
+    // Initialize the HTTP client
     getWeather();
+  }
+
+  @override
+  void dispose() {
+    // Close the HTTP client when disposing the widget
+
+    super.dispose();
   }
 }

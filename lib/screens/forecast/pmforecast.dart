@@ -111,52 +111,43 @@ class _PmForecastState extends State<PmForecast> {
   void getWeather() async {
     var client = http.Client();
     try {
-      pm = List<double>.filled(7, 0.0);
       var uri = 'http://10.0.2.2:8000/forecast';
       var url = Uri.parse(uri);
       var response = await client.get(url);
 
       if (response.statusCode == 200) {
         var responseData = response.body;
-        var decodeData = json.decode(responseData);
+        var decodedData = json.decode(responseData);
+
+        List<double> xValues = [];
+
+        // Extract values
+        for (var i = 7; i <= 13; i++) {
+          if (decodedData['PM25'] != null &&
+              decodedData['PM25'][i.toString()] != null) {
+            xValues.add(decodedData['PM25'][i.toString()].toDouble());
+          } else {
+            xValues.add(0.0); // Or any default value you prefer
+          }
+        }
 
         setState(() {
-          for (int i = 0; i < 7; i++) {
-            pm[i] = decodeData['PM25']['100' + i.toString()];
-          }
-          data = [
-            _ChartData("Tomorrow", pm[0]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 1)),
-                ),
-                pm[1]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 2)),
-                ),
-                pm[2]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 3)),
-                ),
-                pm[3]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 4)),
-                ),
-                pm[4]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 5)),
-                ),
-                pm[5]),
-            _ChartData(
-                DateFormat('E').format(
-                  DateTime.now().add(Duration(days: 6)),
-                ),
-                pm[6]),
-          ];
+          // Update data list
+          data = List.generate(xValues.length, (index) {
+            if (index == 0) {
+              return _ChartData(
+                "Tomorrow",
+                xValues[index],
+              );
+            } else {
+              DateTime currentDate =
+                  DateTime.now().add(Duration(days: index + 1));
+              return _ChartData(
+                DateFormat('E').format(currentDate),
+                xValues[index],
+              );
+            }
+          });
         });
       } else {
         print('Request failed with status: ${response.statusCode}');
