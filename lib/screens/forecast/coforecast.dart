@@ -122,7 +122,7 @@ class _CoForecastState extends State<CoForecast> {
 
         setState(() {
           for (int i = 0; i < 7; i++) {
-            x[i] = decodeData['CO2'][i].toDouble();
+            x[i] = decodeData['CO2']['100' + i.toString()];
           }
           data = [
             _ChartData("Tomorrow", x[0]),

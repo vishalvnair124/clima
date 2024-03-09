@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:clima/aqicalculate.dart';
 import 'package:clima/model/weather_data.dart';
 
 import 'package:clima/widgets/anclock.dart';
@@ -199,7 +200,8 @@ class _LaptopHomeState extends State<LaptopHome> {
           uvIndex = weatherData.uvIndex!;
           windSpeed = weatherData.windSpeed!;
           windDirection = weatherData.windDirection!;
-          airQualityIndex = weatherData.airQualityIndex!;
+          airQualityIndex = overallAqi(weatherData.pm25!, weatherData.so2Level!,
+              weatherData.coLevel!, weatherData.no2Level!);
           coLevel = weatherData.coLevel!;
           pm25 = weatherData.pm25!;
           so2Level = weatherData.so2Level!;

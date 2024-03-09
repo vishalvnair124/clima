@@ -19,7 +19,7 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
 
   double a = 0.0, b = 0.0, c = 0.0;
   double today = 0.0;
-  double x = 0.0, y = 0.0, z = 0.0;
+  double e = 0.0, d = 0.0, f = 0.0;
 
   @override
   void initState() {
@@ -98,47 +98,47 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
       if (response.statusCode == 200) {
         var responseData = response.body;
         var decodeData = json.decode(responseData);
+        //print(decodeData);
         setState(() {
-          a = decodeData['Temperature'][0].toDouble();
-          b = decodeData['Temperature'][1].toDouble();
-          c = decodeData['Temperature'][2].toDouble();
-          today = decodeData['Temperature'][3].toDouble();
-
-          x = decodeData['Temperature'][4].toDouble();
-          y = decodeData['Temperature'][5].toDouble();
-          z = decodeData['Temperature'][6].toDouble();
+          today = decodeData['Today_Temperature'];
+          a = decodeData['Temperature']['1000'];
+          b = decodeData['Temperature']['1001'];
+          c = decodeData['Temperature']['1002'];
+          d = decodeData['Temperature']['1003'];
+          e = decodeData['Temperature']['1004'];
+          f = decodeData['Temperature']['1005'];
           data = [
             _ChartData("Today", today),
             _ChartData(
                 DateFormat('E').format(
                   DateTime.now().add(Duration(days: 1)),
                 ),
-                y),
+                a),
             _ChartData(
                 DateFormat('E').format(
                   DateTime.now().add(Duration(days: 2)),
                 ),
-                y),
+                b),
             _ChartData(
                 DateFormat('E').format(
                   DateTime.now().add(Duration(days: 3)),
                 ),
-                y),
+                c),
             _ChartData(
                 DateFormat('E').format(
                   DateTime.now().add(Duration(days: 4)),
                 ),
-                y),
+                d),
             _ChartData(
                 DateFormat('E').format(
                   DateTime.now().add(Duration(days: 5)),
                 ),
-                y),
+                e),
             _ChartData(
                 DateFormat('E').format(
                   DateTime.now().add(Duration(days: 6)),
                 ),
-                y),
+                f),
           ];
         });
       } else {

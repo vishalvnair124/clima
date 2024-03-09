@@ -122,7 +122,7 @@ class _SoForecastState extends State<SoForecast> {
 
         setState(() {
           for (int i = 0; i < 7; i++) {
-            x[i] = decodeData['SO2'][i].toDouble();
+            x[i] = decodeData['SO2']['100' + i.toString()];
           }
           data = [
             _ChartData("Tomorrow", x[0]),

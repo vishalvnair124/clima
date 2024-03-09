@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:clima/aqicalculate.dart';
 import 'package:http/http.dart' as http;
 import 'package:clima/model/hour_weather_data.dart';
 import 'package:flutter/material.dart';
@@ -899,7 +900,8 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
 
         setState(() {
           isLoded = true;
-          airQualityIndex = weatherData.airQualityIndex!;
+          airQualityIndex = overallAqi(weatherData.pm25!, weatherData.so2Level!,
+              weatherData.coLevel!, weatherData.no2Level!);
           temperature = weatherData.temperature!;
           humidity = weatherData.humidity!;
           pressure = weatherData.pressure!;

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:clima/aqicalculate.dart';
 import 'package:http/http.dart' as http;
 import 'package:clima/model/weather_data.dart';
 import 'package:flutter/material.dart';
@@ -330,7 +331,7 @@ class _MobileLatestState extends State<MobileLatest> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              "${airQualityIndex}",
+                              "${airQualityIndex.toStringAsFixed(2)}",
                               style: GoogleFonts.mada(
                                   color: Color(0xFF454545),
                                   fontSize: 55,
@@ -819,7 +820,8 @@ class _MobileLatestState extends State<MobileLatest> {
 
         setState(() {
           isLoded = true;
-          airQualityIndex = weatherData.airQualityIndex!;
+          airQualityIndex = overallAqi(weatherData.pm25!, weatherData.so2Level!,
+              weatherData.coLevel!, weatherData.no2Level!);
           temperature = weatherData.temperature!;
           humidity = weatherData.humidity!;
           pressure = weatherData.pressure!;

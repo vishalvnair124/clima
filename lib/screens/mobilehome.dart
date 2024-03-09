@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:clima/appscolors.dart';
+import 'package:clima/aqicalculate.dart';
 import 'package:clima/model/weather_data.dart';
 import 'package:clima/screens/mobilelatest.dart';
 
@@ -364,14 +365,14 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                                   "${pressure}",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF454545),
-                                      fontSize: 50,
+                                      fontSize: 45,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   "Pa",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF5F5F5F),
-                                      fontSize: 45,
+                                      fontSize: 40,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ],
@@ -407,13 +408,14 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
 
       if (response.statusCode == 200) {
         var data = response.body;
-        print(data);
+        // print(data);
         Map<String, dynamic> jsonMap = json.decode(data);
         WeatherData weatherData = WeatherData.fromJson(jsonMap);
 
         setState(() {
           isLoded = true;
-          airQualityIndex = weatherData.airQualityIndex!;
+          airQualityIndex = overallAqi(weatherData.pm25!, weatherData.so2Level!,
+              weatherData.coLevel!, weatherData.no2Level!);
           temperature = weatherData.temperature!;
           humidity = weatherData.humidity!;
           pressure = weatherData.pressure!;

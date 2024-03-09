@@ -7,7 +7,7 @@ class WeatherData {
   double? uvIndex;
   double? windSpeed;
   int? windDirection;
-  double? airQualityIndex;
+
   double? coLevel;
   double? pm25;
   double? so2Level;
@@ -24,7 +24,6 @@ class WeatherData {
     this.uvIndex,
     this.windSpeed,
     this.windDirection,
-    this.airQualityIndex,
     this.coLevel,
     this.pm25,
     this.so2Level,
@@ -43,7 +42,6 @@ class WeatherData {
       uvIndex: json['UV_Index']?.toDouble() ?? 0.0,
       windSpeed: json['Wind_Speed']?.toDouble() ?? 0.0,
       windDirection: json['Wind_Direction'] ?? 0,
-      airQualityIndex: json['Air_Quality_Index']?.toDouble() ?? 0.0,
       coLevel: json['CO_Level']?.toDouble() ?? 0.0,
       pm25: json['PM2.5']?.toDouble() ?? 0.0,
       so2Level: json['SO2_Level']?.toDouble() ?? 0.0,

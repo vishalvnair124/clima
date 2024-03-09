@@ -122,7 +122,7 @@ class _PmForecastState extends State<PmForecast> {
 
         setState(() {
           for (int i = 0; i < 7; i++) {
-            pm[i] = decodeData['PM25'][i].toDouble();
+            pm[i] = decodeData['PM25']['100' + i.toString()];
           }
           data = [
             _ChartData("Tomorrow", pm[0]),

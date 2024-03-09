@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:convert';
+import 'package:clima/aqicalculate.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -142,18 +143,66 @@ class _AqiAnalysisState extends State<AqiAnalysis> {
         print(decodeData);
 
         setState(() {
-          x[0] = decodeData['0']['Air_Quality_Index'].toDouble();
-          x[1] = decodeData['2']['Air_Quality_Index'].toDouble();
-          x[2] = decodeData['4']['Air_Quality_Index'].toDouble();
-          x[3] = decodeData['6']['Air_Quality_Index'].toDouble();
-          x[4] = decodeData['8']['Air_Quality_Index'].toDouble();
-          x[5] = decodeData['10']['Air_Quality_Index'].toDouble();
-          x[6] = decodeData['12']['Air_Quality_Index'].toDouble();
-          x[7] = decodeData['14']['Air_Quality_Index'].toDouble();
-          x[8] = decodeData['16']['Air_Quality_Index'].toDouble();
-          x[9] = decodeData['18']['Air_Quality_Index'].toDouble();
-          x[10] = decodeData['20']['Air_Quality_Index'].toDouble();
-          x[11] = decodeData['22']['Air_Quality_Index'].toDouble();
+          x[0] = overallAqi(
+              decodeData['0']['PM2.5'],
+              decodeData['0']['SO2_Level'],
+              decodeData['0']['CO_Level'],
+              decodeData['0']['NO2_Level']);
+          x[1] = overallAqi(
+              decodeData['2']['PM2.5'],
+              decodeData['2']['SO2_Level'],
+              decodeData['2']['CO_Level'],
+              decodeData['2']['NO2_Level']);
+          x[2] = overallAqi(
+              decodeData['4']['PM2.5'],
+              decodeData['4']['SO2_Level'],
+              decodeData['4']['CO_Level'],
+              decodeData['4']['NO2_Level']);
+          x[3] = overallAqi(
+              decodeData['6']['PM2.5'],
+              decodeData['6']['SO2_Level'],
+              decodeData['6']['CO_Level'],
+              decodeData['6']['NO2_Level']);
+          x[4] = overallAqi(
+              decodeData['8']['PM2.5'],
+              decodeData['8']['SO2_Level'],
+              decodeData['8']['CO_Level'],
+              decodeData['8']['NO2_Level']);
+          x[5] = overallAqi(
+              decodeData['10']['PM2.5'],
+              decodeData['10']['SO2_Level'],
+              decodeData['10']['CO_Level'],
+              decodeData['10']['NO2_Level']);
+          x[6] = overallAqi(
+              decodeData['12']['PM2.5'],
+              decodeData['12']['SO2_Level'],
+              decodeData['12']['CO_Level'],
+              decodeData['12']['NO2_Level']);
+          x[7] = overallAqi(
+              decodeData['14']['PM2.5'],
+              decodeData['14']['SO2_Level'],
+              decodeData['14']['CO_Level'],
+              decodeData['14']['NO2_Level']);
+          x[8] = overallAqi(
+              decodeData['16']['PM2.5'],
+              decodeData['16']['SO2_Level'],
+              decodeData['16']['CO_Level'],
+              decodeData['16']['NO2_Level']);
+          x[9] = overallAqi(
+              decodeData['18']['PM2.5'],
+              decodeData['18']['SO2_Level'],
+              decodeData['18']['CO_Level'],
+              decodeData['18']['NO2_Level']);
+          x[10] = overallAqi(
+              decodeData['20']['PM2.5'],
+              decodeData['20']['SO2_Level'],
+              decodeData['20']['CO_Level'],
+              decodeData['20']['NO2_Level']);
+          x[11] = overallAqi(
+              decodeData['22']['PM2.5'],
+              decodeData['22']['SO2_Level'],
+              decodeData['22']['CO_Level'],
+              decodeData['22']['NO2_Level']);
 
           data = [
             _ChartData("12am", x[0]),

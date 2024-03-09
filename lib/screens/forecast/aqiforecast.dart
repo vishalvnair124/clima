@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:clima/aqicalculate.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -122,7 +123,11 @@ class _AqiForecastState extends State<AqiForecast> {
 
         setState(() {
           for (int i = 0; i < 7; i++) {
-            aqi[i] = decodeData['PRESSURE'][i].toDouble();
+            aqi[i] = overallAqi(
+                decodeData['PM25']['100' + i.toString()],
+                decodeData['SO2']['100' + i.toString()],
+                decodeData['CO2']['100' + i.toString()],
+                decodeData['NO2']['100' + i.toString()]);
           }
           data = [
             _ChartData("Tomorrow", aqi[0]),
