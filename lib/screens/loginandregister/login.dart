@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:clima/screens/loginandregister/forgot.dart';
 import 'package:http/http.dart' as http;
 import 'package:clima/screens/loginandregister/signupscreen.dart';
 import 'package:email_validator/email_validator.dart';
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ), //BoxShadow
                   ],
                   borderRadius: BorderRadius.circular(30)),
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.55,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -142,37 +143,62 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    // Login button action
-                                    String email = _emailController.text;
-                                    String password = _passwordController.text;
-                                    // Perform login action with email and password
-                                    loginUser(email, password);
-                                  }
-                                },
-                                child: Text(
-                                  'Login',
-                                  style: GoogleFonts.mada(
-                                      color: Color.fromARGB(255, 28, 207, 16)),
+                              SizedBox(
+                                width: 150,
+                                child: ElevatedButton(
+                                  style: ButtonStyle(),
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      // Login button action
+                                      String email = _emailController.text;
+                                      String password =
+                                          _passwordController.text;
+                                      // Perform login action with email and password
+                                      loginUser(email, password);
+                                    }
+                                  },
+                                  child: Text(
+                                    'Login',
+                                    style: GoogleFonts.mada(
+                                        color:
+                                            Color.fromARGB(255, 28, 207, 16)),
+                                  ),
                                 ),
                               ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SignUpScreen(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'Sign up',
-                                  style: GoogleFonts.mada(
-                                      color: Color.fromARGB(255, 28, 207, 16)),
+                              SizedBox(
+                                width: 150,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SignUpScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Sign up',
+                                    style: GoogleFonts.mada(
+                                        color:
+                                            Color.fromARGB(255, 28, 207, 16)),
+                                  ),
                                 ),
                               ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ForgotPassword(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text("Forgot password?")),
                             ],
                           ),
                           Visibility(
