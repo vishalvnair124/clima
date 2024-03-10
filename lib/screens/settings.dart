@@ -1,20 +1,78 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  const Settings({Key? key}) : super(key: key);
 
   @override
   State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
+  bool showChange = false;
+  String msg = "";
+  String email = "";
+  String password = "";
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveUserData();
+  }
+
+  Future<void> retrieveUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userEmail = prefs.getString('userEmail');
+    String? userPassword = prefs.getString('userPassword');
+
+    if (userEmail != null) {
+      _emailController.text = userEmail;
+    }
+
+    // Fetch user name if not available
+    if (_nameController.text.isEmpty) {
+      await fetchUserName(userEmail, userPassword);
+    }
+  }
+
+  Future<void> fetchUserName(String? userEmail, String? userPassword) async {
+    if (userEmail != null && userPassword != null) {
+      final url =
+          Uri.parse('http://10.0.2.2:8000/users/${userEmail}/$userPassword');
+
+      try {
+        var response = await http.get(
+          url,
+          headers: <String, String>{
+            'Authorization': 'Basic ' +
+                base64Encode(utf8.encode('$userEmail:$userPassword')),
+          },
+        );
+
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> data = jsonDecode(response.body);
+          setState(() {
+            _nameController.text = data['user_name'];
+          });
+        } else {
+          print(
+              'Failed to fetch user name. Status code: ${response.statusCode}');
+        }
+      } catch (e) {
+        print('Failed to fetch user name: $e');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -94,10 +152,9 @@ class _SettingsState extends State<Settings> {
                               fontWeight: FontWeight.w500,
                             ),
                             controller: _passwordController,
-                            obscureText:
-                                _obscurePassword, // Set the obscureText property dynamically
+                            obscureText: _obscurePassword,
                             decoration: InputDecoration(
-                              labelText: 'Password',
+                              labelText: 'New password',
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscurePassword
@@ -107,8 +164,7 @@ class _SettingsState extends State<Settings> {
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    _obscurePassword =
-                                        !_obscurePassword; // Toggle the obscurePassword state
+                                    _obscurePassword = !_obscurePassword;
                                   });
                                 },
                               ),
@@ -145,7 +201,46 @@ class _SettingsState extends State<Settings> {
                           ),
                           SizedBox(height: 20.0),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              setState(() {
+                                showChange = false;
+                              });
+                              if (_formKey.currentState!.validate()) {
+                                // Check if new password and confirm password match
+                                if (_passwordController.text !=
+                                    _confirmPasswordController.text) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text('Passwords do not match'),
+                                    backgroundColor: Colors.red,
+                                  ));
+                                  return;
+                                }
+
+                                // Additional password validation
+                                if (!_isPasswordValid(
+                                    _passwordController.text)) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Password must have at least 6 characters including one uppercase letter, one lowercase letter, one number, and one special character.'),
+                                    backgroundColor: Colors.red,
+                                  ));
+                                  return;
+                                }
+
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+
+                                String? userPassword =
+                                    prefs.getString('userPassword');
+
+                                updateUserPassword(
+                                    _emailController.text,
+                                    userPassword!,
+                                    _confirmPasswordController.text);
+                              }
+                            },
                             child: Text(
                               'Change password',
                               style: GoogleFonts.mada(
@@ -156,6 +251,17 @@ class _SettingsState extends State<Settings> {
                         ],
                       ),
                     ),
+                    Visibility(
+                        visible: showChange,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Text("          $msg          "),
+                          ),
+                        ))
                   ],
                 ),
               ),
@@ -164,6 +270,49 @@ class _SettingsState extends State<Settings> {
         ),
       ),
     );
+  }
+
+  Future<void> updateUserPassword(
+      String userEmail, String currentPassword, String newPassword) async {
+    // API endpoint URL
+    var url = Uri.parse('http://10.0.2.2:8000/update_password/');
+
+    // Request body
+    var body = jsonEncode({
+      'user_email': userEmail,
+      'current_password': currentPassword,
+      'new_password': newPassword,
+    });
+
+    try {
+      // Sending POST request
+      var response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body,
+      );
+
+      // Check if request was successful
+      if (response.statusCode == 200) {
+        print('Password updated successfully');
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('userPassword', newPassword);
+        setState(() {
+          showChange = true;
+          msg = "Password updated successfully";
+        });
+      } else {
+        print('Failed to update password. Status code: ${response.statusCode}');
+        setState(() {
+          showChange = true;
+          msg = "Something wrong";
+        });
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   bool _isPasswordValid(String password) {
