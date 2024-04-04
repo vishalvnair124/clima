@@ -31,7 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
             return IconButton(
               icon: Icon(Icons.menu, color: Colors.white), // Change icon color
               onPressed: () {
-                Scaffold.of(context).openDrawer();
+                try {
+                  Scaffold.of(context).openDrawer();
+                } on Exception catch (e) {
+                  // TODO
+                }
               },
             );
           },

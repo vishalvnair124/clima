@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:clima/colorandvalue.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,18 +16,6 @@ class _CoForecastState extends State<CoForecast> {
   late List<_ChartData> data = [];
   late List<double> x = List<double>.filled(7, 0.0);
   late TooltipBehavior _tooltip;
-
-  Color getBarColor(double value) {
-    if (value < 30.0) {
-      return Colors.green;
-    } else if (value < 35.0) {
-      return Colors.yellow;
-    } else if (value < 40.0) {
-      return Color.fromARGB(255, 235, 136, 16);
-    } else {
-      return Colors.red;
-    }
-  }
 
   @override
   void initState() {
@@ -76,8 +65,8 @@ class _CoForecastState extends State<CoForecast> {
                   axisLine: AxisLine(color: Colors.white)),
               primaryYAxis: NumericAxis(
                 minimum: 0,
-                maximum: 60,
-                interval: 5,
+                maximum: 26,
+                interval: 2,
                 axisLine: AxisLine(
                   color: Colors.white,
                 ),
@@ -98,7 +87,7 @@ class _CoForecastState extends State<CoForecast> {
                     yValueMapper: (_ChartData data, _) => data.y,
                     name: "CO",
                     pointColorMapper: (_ChartData data, _) =>
-                        getBarColor(data.y),
+                        getColorAndSituationForCO(data.y)['color'],
                     color: Colors.deepPurpleAccent)
               ],
             ),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:clima/colorandvalue.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,18 +16,6 @@ class _PmForecastState extends State<PmForecast> {
   late List<_ChartData> data = [];
   late List<double> pm = List<double>.filled(7, 0.0);
   late TooltipBehavior _tooltip;
-
-  Color getBarColor(double value) {
-    if (value < 30.0) {
-      return Colors.green;
-    } else if (value < 35.0) {
-      return Colors.yellow;
-    } else if (value < 40.0) {
-      return Color.fromARGB(255, 235, 136, 16);
-    } else {
-      return Colors.red;
-    }
-  }
 
   @override
   void initState() {
@@ -98,7 +87,7 @@ class _PmForecastState extends State<PmForecast> {
                     yValueMapper: (_ChartData data, _) => data.y,
                     name: "PM 2.5",
                     pointColorMapper: (_ChartData data, _) =>
-                        getBarColor(data.y),
+                        getColorAndSituationForPM25(data.y)['color'],
                     color: Colors.deepPurpleAccent)
               ],
             ),

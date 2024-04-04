@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:convert';
+import 'package:clima/colorandvalue.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -18,18 +19,6 @@ class _PressureAnalysisState extends State<PressureAnalysis> {
   late List<_ChartData> data = [];
   late List<double> x = List<double>.filled(12, 0.0);
   late TooltipBehavior _tooltip;
-
-  Color getBarColor(double value) {
-    if (value < 30.0) {
-      return Colors.green;
-    } else if (value < 35.0) {
-      return Colors.yellow;
-    } else if (value < 40.0) {
-      return Color.fromARGB(255, 235, 136, 16);
-    } else {
-      return Colors.red;
-    }
-  }
 
   @override
   void initState() {
@@ -98,8 +87,8 @@ class _PressureAnalysisState extends State<PressureAnalysis> {
               ),
               primaryYAxis: NumericAxis(
                 minimum: 0,
-                maximum: 60,
-                interval: 5,
+                maximum: 1200,
+                interval: 100,
                 axisLine: AxisLine(color: Colors.white),
                 majorTickLines: MajorTickLines(color: Colors.white),
                 labelStyle: TextStyle(color: Colors.white),
@@ -114,7 +103,8 @@ class _PressureAnalysisState extends State<PressureAnalysis> {
                   xValueMapper: (_ChartData data, _) => data.x,
                   yValueMapper: (_ChartData data, _) => data.y,
                   name: "Pressure",
-                  pointColorMapper: (_ChartData data, _) => getBarColor(data.y),
+                  pointColorMapper: (_ChartData data, _) =>
+                      getColorAndSituationForPressure(data.y)['color'],
                   color: Colors.deepPurpleAccent,
                 )
               ],

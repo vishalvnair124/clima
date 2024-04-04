@@ -1,3 +1,4 @@
+import 'package:clima/colorandvalue.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:http/http.dart' as http;
@@ -29,18 +30,6 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
         enable: true,
         color: Color.fromARGB(255, 255, 255, 255));
     getWeather();
-  }
-
-  Color getBarColor(double value) {
-    if (value < 30.0) {
-      return Colors.green;
-    } else if (value < 35.0) {
-      return Colors.yellow;
-    } else if (value < 40.0) {
-      return Color.fromARGB(255, 235, 136, 16);
-    } else {
-      return Colors.red;
-    }
   }
 
   @override
@@ -81,7 +70,8 @@ class _CustomMobileBarChartPageState extends State<CustomMobileBarChart> {
               xValueMapper: (_ChartData data, _) => data.x,
               yValueMapper: (_ChartData data, _) => data.y,
               name: 'Temperature',
-              pointColorMapper: (_ChartData data, _) => getBarColor(data.y),
+              pointColorMapper: (_ChartData data, _) =>
+                  getColorAndSituationForTemperature(data.y)['color'],
               color: Colors.deepPurpleAccent)
         ],
       ),

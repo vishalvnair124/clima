@@ -5,6 +5,7 @@ import 'package:clima/model/hour_weather_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:clima/colorandvalue.dart';
 
 class AnalsisDaily extends StatefulWidget {
   const AnalsisDaily({super.key});
@@ -186,9 +187,11 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForHumidity(
+                                  humidity)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForHumidity(
+                                    humidity)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -243,9 +246,11 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForPressure(
+                                  pressure)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForPressure(
+                                    pressure)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -305,9 +310,11 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForTemperature(
+                                  temperature)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForTemperature(
+                                    temperature)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -362,9 +369,11 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForRainfall(
+                                  rainfall)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForRainfall(
+                                    rainfall)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -424,9 +433,11 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForAQI(
+                                  airQualityIndex)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForAQI(
+                                    airQualityIndex)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -481,9 +492,10 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForCO(coLevel)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color:
+                                    getColorAndSituationForCO(coLevel)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -543,9 +555,10 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForPM25(pm25)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color:
+                                    getColorAndSituationForPM25(pm25)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -600,9 +613,10 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForSO2(so2Level)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForSO2(
+                                    so2Level)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -662,9 +676,10 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForNO2(no2Level)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForNO2(
+                                    no2Level)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -719,9 +734,10 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForUV(uvIndex)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color:
+                                    getColorAndSituationForUV(uvIndex)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -765,25 +781,27 @@ class _AnalsisDailyState extends State<AnalsisDaily> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${windSpeed}",
+                                  windSpeed.toStringAsFixed(1),
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF454545),
                                       fontSize: 55,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
-                                  "",
+                                  "M/s",
                                   style: GoogleFonts.mada(
                                       color: Color(0xFF5F5F5F),
-                                      fontSize: 50,
+                                      fontSize: 30,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForWindSpeed(
+                                  windSpeed)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForWindSpeed(
+                                    windSpeed)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),

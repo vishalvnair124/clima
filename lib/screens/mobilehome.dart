@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:clima/appscolors.dart';
 import 'package:clima/aqicalculate.dart';
+import 'package:clima/colorandvalue.dart';
 import 'package:clima/model/weather_data.dart';
 import 'package:clima/screens/mobilelatest.dart';
 
@@ -68,7 +69,10 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                   fontWeight: FontWeight.w500),
             ),
             Text(
-              "Normal",
+              temaqi
+                  ? getColorAndSituationForAQI(airQualityIndex)['situation']
+                  : getColorAndSituationForTemperature(
+                      temperature)['situation'],
               style: GoogleFonts.mada(
                 color: Color.fromARGB(255, 255, 255, 255),
                 fontSize: 21,
@@ -321,9 +325,11 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForHumidity(
+                                  humidity)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForHumidity(
+                                    humidity)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -378,9 +384,11 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                               ],
                             ),
                             Text(
-                              "Normal",
+                              getColorAndSituationForPressure(
+                                  pressure)['situation'],
                               style: GoogleFonts.mada(
-                                color: Color(0xFF3BDD38),
+                                color: getColorAndSituationForPressure(
+                                    pressure)['color'],
                                 fontSize: 21,
                                 fontWeight: FontWeight.w800,
                               ),

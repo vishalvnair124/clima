@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:convert';
+import 'package:clima/colorandvalue.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -99,8 +100,8 @@ class _UvAnalysisState extends State<UvAnalysis> {
               ),
               primaryYAxis: NumericAxis(
                 minimum: 0,
-                maximum: 60,
-                interval: 5,
+                maximum: 15,
+                interval: 1,
                 axisLine: AxisLine(color: Colors.white),
                 majorTickLines: MajorTickLines(color: Colors.white),
                 labelStyle: TextStyle(color: Colors.white),
@@ -115,7 +116,8 @@ class _UvAnalysisState extends State<UvAnalysis> {
                   xValueMapper: (_ChartData data, _) => data.x,
                   yValueMapper: (_ChartData data, _) => data.y,
                   name: "UV Index",
-                  pointColorMapper: (_ChartData data, _) => getBarColor(data.y),
+                  pointColorMapper: (_ChartData data, _) =>
+                      getColorAndSituationForUV(data.y)['color'],
                   color: Colors.deepPurpleAccent,
                 )
               ],
