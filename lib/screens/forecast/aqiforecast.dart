@@ -109,7 +109,7 @@ class _AqiForecastState extends State<AqiForecast> {
         var responseData = response.body;
         var decodedData = json.decode(responseData);
 
-        print(decodedData);
+        //print(decodedData);
 
         List<double> aqiValues = [];
 

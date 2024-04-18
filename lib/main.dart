@@ -19,7 +19,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: LoginScreen(),
-      routes: {"home": (context) => HomeScreen()},
+      routes: {
+        "home": (context) => HomeScreen(),
+        "login": (context) => LoginScreen()
+      },
       debugShowCheckedModeBanner: false,
     );
   }

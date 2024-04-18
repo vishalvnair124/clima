@@ -75,201 +75,231 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 234, 229, 229),
-                border: Border.all(color: Colors.green, width: 2),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 112, 242, 179),
-                    offset: const Offset(3.0, 3.0),
-                    blurRadius: 10.0,
-                    spreadRadius: 2.0,
-                  ),
-                  BoxShadow(
-                    color: Colors.white,
-                    offset: const Offset(0.0, 0.0),
-                    blurRadius: 0.0,
-                    spreadRadius: 0.0,
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(30),
-              ),
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Settings",
-                      style: GoogleFonts.aladin(
-                        color: Color.fromARGB(255, 28, 207, 16),
-                        fontSize: 40,
-                        fontWeight: FontWeight.w500,
-                      ),
+    return SingleChildScrollView(
+      child: Container(
+        child: Column(
+          children: [
+            SingleChildScrollView(
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 234, 229, 229),
+                      border: Border.all(color: Colors.green, width: 2),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 112, 242, 179),
+                          offset: const Offset(3.0, 3.0),
+                          blurRadius: 10.0,
+                          spreadRadius: 2.0,
+                        ),
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: const Offset(0.0, 0.0),
+                          blurRadius: 0.0,
+                          spreadRadius: 0.0,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    Form(
-                      key: _formKey,
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextFormField(
-                            enabled: false,
-                            style: GoogleFonts.mada(
-                              color: Colors.black,
-                              fontSize: 20,
+                          Text(
+                            "Settings",
+                            style: GoogleFonts.aladin(
+                              color: Color.fromARGB(255, 28, 207, 16),
+                              fontSize: 40,
                               fontWeight: FontWeight.w500,
-                            ),
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              labelText: 'Name',
                             ),
                           ),
-                          SizedBox(height: 20.0),
-                          TextFormField(
-                            enabled: false,
-                            style: GoogleFonts.mada(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            controller: _emailController,
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                            ),
-                          ),
-                          SizedBox(height: 20.0),
-                          TextFormField(
-                            style: GoogleFonts.mada(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            controller: _passwordController,
-                            obscureText: _obscurePassword,
-                            decoration: InputDecoration(
-                              labelText: 'New password',
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscurePassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                  color: Colors.grey,
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextFormField(
+                                  enabled: false,
+                                  style: GoogleFonts.mada(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  controller: _nameController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Name',
+                                  ),
                                 ),
-                                onPressed: () {
-                                  setState(() {
-                                    _obscurePassword = !_obscurePassword;
-                                  });
-                                },
-                              ),
+                                SizedBox(height: 20.0),
+                                TextFormField(
+                                  enabled: false,
+                                  style: GoogleFonts.mada(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  controller: _emailController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Email',
+                                  ),
+                                ),
+                                SizedBox(height: 20.0),
+                                TextFormField(
+                                  style: GoogleFonts.mada(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  controller: _passwordController,
+                                  obscureText: _obscurePassword,
+                                  decoration: InputDecoration(
+                                    labelText: 'New password',
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _obscurePassword
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: Colors.grey,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscurePassword = !_obscurePassword;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your password';
+                                    } else if (!_isPasswordValid(value)) {
+                                      return 'Password must have at least 6 characters including one uppercase letter, one lowercase letter, one number, and one special character.';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(height: 20.0),
+                                TextFormField(
+                                  style: GoogleFonts.mada(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  controller: _confirmPasswordController,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    labelText: 'Confirm Password',
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please confirm your password';
+                                    } else if (value !=
+                                        _passwordController.text) {
+                                      return 'Passwords do not match';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(height: 20.0),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      showChange = false;
+                                    });
+                                    if (_formKey.currentState!.validate()) {
+                                      // Check if new password and confirm password match
+                                      if (_passwordController.text !=
+                                          _confirmPasswordController.text) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content:
+                                              Text('Passwords do not match'),
+                                          backgroundColor: Colors.red,
+                                        ));
+                                        return;
+                                      }
+
+                                      // Additional password validation
+                                      if (!_isPasswordValid(
+                                          _passwordController.text)) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                              'Password must have at least 6 characters including one uppercase letter, one lowercase letter, one number, and one special character.'),
+                                          backgroundColor: Colors.red,
+                                        ));
+                                        return;
+                                      }
+
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+
+                                      String? userPassword =
+                                          prefs.getString('userPassword');
+
+                                      updateUserPassword(
+                                          _emailController.text,
+                                          userPassword!,
+                                          _confirmPasswordController.text);
+                                    }
+                                  },
+                                  child: Text(
+                                    'Change password',
+                                    style: GoogleFonts.mada(
+                                      color: Color.fromARGB(255, 28, 207, 16),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter your password';
-                              } else if (!_isPasswordValid(value)) {
-                                return 'Password must have at least 6 characters including one uppercase letter, one lowercase letter, one number, and one special character.';
-                              }
-                              return null;
-                            },
                           ),
-                          SizedBox(height: 20.0),
-                          TextFormField(
-                            style: GoogleFonts.mada(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            controller: _confirmPasswordController,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              labelText: 'Confirm Password',
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please confirm your password';
-                              } else if (value != _passwordController.text) {
-                                return 'Passwords do not match';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 20.0),
-                          ElevatedButton(
-                            onPressed: () async {
-                              setState(() {
-                                showChange = false;
-                              });
-                              if (_formKey.currentState!.validate()) {
-                                // Check if new password and confirm password match
-                                if (_passwordController.text !=
-                                    _confirmPasswordController.text) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text('Passwords do not match'),
-                                    backgroundColor: Colors.red,
-                                  ));
-                                  return;
-                                }
-
-                                // Additional password validation
-                                if (!_isPasswordValid(
-                                    _passwordController.text)) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                        'Password must have at least 6 characters including one uppercase letter, one lowercase letter, one number, and one special character.'),
-                                    backgroundColor: Colors.red,
-                                  ));
-                                  return;
-                                }
-
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-
-                                String? userPassword =
-                                    prefs.getString('userPassword');
-
-                                updateUserPassword(
-                                    _emailController.text,
-                                    userPassword!,
-                                    _confirmPasswordController.text);
-                              }
-                            },
-                            child: Text(
-                              'Change password',
-                              style: GoogleFonts.mada(
-                                color: Color.fromARGB(255, 28, 207, 16),
-                              ),
-                            ),
-                          ),
+                          Visibility(
+                              visible: showChange,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: BorderRadius.circular(30)),
+                                  child: Text("          $msg          "),
+                                ),
+                              ))
                         ],
                       ),
                     ),
-                    Visibility(
-                        visible: showChange,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Text("          $msg          "),
-                          ),
-                        ))
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+            SizedBox(
+              width: 200,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                  Color.fromARGB(255, 28, 207, 16),
+                )),
+                onPressed: _logout,
+                child: Text(
+                  'Logout',
+                  style: GoogleFonts.mada(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userEmail');
+    await prefs.remove('userPassword');
+    // After removing credentials,
+    Navigator.pushReplacementNamed(context, "login"); // Replace  login route
   }
 
   Future<void> updateUserPassword(
@@ -296,7 +326,7 @@ class _SettingsState extends State<Settings> {
 
       // Check if request was successful
       if (response.statusCode == 200) {
-        print('Password updated successfully');
+        //    print('Password updated successfully');
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('userPassword', newPassword);
         setState(() {

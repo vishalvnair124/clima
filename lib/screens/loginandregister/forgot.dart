@@ -189,12 +189,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
 
     if (response.statusCode == 200) {
-      print('Email sent successfully');
-      print(response.body);
+      // print('Email sent successfully');
+      // print(response.body);
       // Handle successful email sending
     } else {
-      print('Failed to send email. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // print('Failed to send email. Status code: ${response.statusCode}');
+      // print('Response body: ${response.body}');
       // Handle error cases
     }
   }
@@ -227,9 +227,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         }
         return responseData['exists'] as bool;
       } else {
-        print(
-            'Failed to check email existence. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        // print( 'Failed to check email existence. Status code: ${response.statusCode}');
+        // print('Response body: ${response.body}');
         // Handle error cases
         throw Exception('Failed to check email existence');
       }

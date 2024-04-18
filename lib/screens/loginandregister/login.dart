@@ -21,6 +21,24 @@ class _LoginScreenState extends State<LoginScreen> {
   String msg = "";
 
   @override
+  void initState() {
+    super.initState();
+    // Check if user credentials exist in SharedPreferences
+    _checkUserLoggedIn();
+  }
+
+  // Function to check if the user is already logged in
+  Future<void> _checkUserLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userEmail = prefs.getString('userEmail');
+    String? userPassword = prefs.getString('userPassword');
+    if (userEmail != null && userPassword != null) {
+      // If credentials exist, attempt to log in
+      loginUser(userEmail, userPassword);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,

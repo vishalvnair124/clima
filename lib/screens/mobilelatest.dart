@@ -829,7 +829,7 @@ class _MobileLatestState extends State<MobileLatest> {
 
       if (response.statusCode == 200) {
         var data = response.body;
-        print(data);
+        //  print(data);
         Map<String, dynamic> jsonMap = json.decode(data);
         WeatherData weatherData = WeatherData.fromJson(jsonMap);
 

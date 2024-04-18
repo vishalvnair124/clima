@@ -50,13 +50,13 @@ class _ForgotOtpScreenState extends State<ForgotOtpScreen> {
       // Compare the OTP entered by the user with the random number
       if (_otpController.text == widget.rand.toString()) {
         // OTP verification successful, proceed with further actions
-        print('OTP verification successful');
+        // print('OTP verification successful');
 
         // Now you can access the passed parameters using widget.name, widget.email, widget.password, and widget.rand
 
-        print('Email: ${widget.email}');
+        // print('Email: ${widget.email}');
 
-        print('Random number: ${widget.rand}');
+        // print('Random number: ${widget.rand}');
         updatePasswordAndNotify(widget.email);
         setState(() {
           msg1 = "Password updated successfully";
@@ -183,12 +183,12 @@ class _ForgotOtpScreenState extends State<ForgotOtpScreen> {
 
       // Check the response status code
       if (response.statusCode == 200) {
-        print('Password updated successfully! New password sent to user.');
+        // print('Password updated successfully! New password sent to user.');
       } else {
-        print('Failed to update password: ${response.body}');
+        // print('Failed to update password: ${response.body}');
       }
     } catch (e) {
-      print('Error sending POST request: $e');
+      // print('Error sending POST request: $e');
     }
   }
 }

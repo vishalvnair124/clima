@@ -55,16 +55,16 @@ class _OtpScreenState extends State<OtpScreen> {
         print('OTP verification successful');
 
         // Now you can access the passed parameters using widget.name, widget.email, widget.password, and widget.rand
-        print('Name: ${widget.name}');
-        print('Email: ${widget.email}');
-        print('Password: ${widget.password}');
-        print('Random number: ${widget.rand}');
+        // print('Name: ${widget.name}');
+        // print('Email: ${widget.email}');
+        // print('Password: ${widget.password}');
+        // print('Random number: ${widget.rand}');
         createUser(widget.email, widget.email, widget.password);
         // Proceed with further actions after successful OTP verification
       } else {
         // OTP verification failed
-        print('OTP verification failed');
-        print('Random number: ${widget.rand}');
+        // print('OTP verification failed');
+        // print('Random number: ${widget.rand}');
       }
     });
   }
@@ -166,12 +166,12 @@ class _OtpScreenState extends State<OtpScreen> {
         msg = "Account created successfully,now you can login";
         isSignupreq = true;
       });
-      print(response.body);
+      // print(response.body);
     } else if (response.statusCode == 409) {
-      print(response.body);
+      // print(response.body);
     } else {
       print('Failed to create user. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // print('Response body: ${response.body}');
     }
   }
 }

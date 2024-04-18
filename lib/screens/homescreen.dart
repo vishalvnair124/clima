@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Scaffold.of(context).openDrawer();
                 } on Exception catch (e) {
                   // TODO
+                  print(e);
                 }
               },
             );
